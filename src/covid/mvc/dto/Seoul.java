@@ -1,0 +1,44 @@
+package covid.mvc.dto;
+
+public class Seoul {
+	private String district;//구이름
+	private int dis_patient;//확진자수
+	private String hazard;//위험도
+	
+	public Seoul() {}
+
+	public Seoul(String district, int dis_patient, String hazard) {
+		super();
+		this.district = district;
+		this.dis_patient = dis_patient;
+		this.hazard = hazard;
+	}
+
+	public String getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+
+	public int getDis_patient() {
+		return dis_patient;
+	}
+
+	public void setDis_patient(int dis_patient) {
+		this.dis_patient = dis_patient;
+	}
+
+	public String getHazard() {
+		return hazard;
+	}
+
+	public void setHazard(String hazard) {
+		this.hazard = hazard;
+	}
+	
+	
+
+
+}
