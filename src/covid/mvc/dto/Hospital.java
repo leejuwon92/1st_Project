@@ -1,5 +1,8 @@
 package covid.mvc.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Hospital {
 	private String hospitalCode;
 	private int mediStaff;
@@ -8,9 +11,11 @@ public class Hospital {
 	private String hospitalAddr;
 	private int patient_curr;
 	private String userId;
-	
-	public Hospital() {}
-	
+	private List<Patient> list = new ArrayList<Patient>();
+
+	public Hospital() {
+	}
+
 	public Hospital(String hospitalCode, int mediStaff, String hospitalName, int bedNo, String hospitalAddr,
 			int patient_curr, String userId) {
 		this.hospitalCode = hospitalCode;
@@ -77,6 +82,13 @@ public class Hospital {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	
-	
+
+	public List<Patient> getList() {
+		return list;
+	}
+
+	public void setList(List<Patient> list) {
+		this.list = list;
+	}
+
 }
