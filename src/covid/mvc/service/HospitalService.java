@@ -26,8 +26,8 @@ public class HospitalService {
 		if(result == 0) throw new SQLException(patientNo + " 번 환자가 존재하지 않습니다.");
 	}
 	
-	public void updateMediStaff(int mediStaff) throws SQLException {
-		int result = hospitalDAO.updateMediStaff(mediStaff);
+	public void updateMediStaff(String userId, int mediStaff) throws SQLException {
+		int result = hospitalDAO.updateMediStaff(userId, mediStaff);
 		if(result == 0) throw new SQLException(mediStaff + " 명으로 수정되지 않았습니다.");
 	}
 }
