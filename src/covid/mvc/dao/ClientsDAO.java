@@ -30,5 +30,14 @@ public interface ClientsDAO {
 	 */
 	public List<Seoul> selectByAll() throws SQLException;
 	
+	/**
+	 * 서울시 특정 지역 확진자 조회
+	 */
+	public Seoul selectSeoulByAddr(String addr) throws SQLException;
+	
+	/**
+	 * 회원가입
+	 */
+	public int insertClients(Clients clients) throws SQLException;
 	
 }	

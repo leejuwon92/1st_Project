@@ -175,6 +175,12 @@ public class MenuView {
 				System.out.print("¢º¢º");
 				int mediStaff = Integer.parseInt(sc.nextLine());
 				HospitalController.updateMediStaff(session.getSessionId(), mediStaff);
+				
+			case 5 :
+				logout(session.getSessionId());
+				return;
+			// break;
+				
 
 			}
 		}

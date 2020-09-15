@@ -27,10 +27,10 @@ public interface HospitalDAO {
 	/**
 	 * 완치 여부 변경
 	 */
-	public void updatePatient(int patientNo)throws SQLException;
+	public int updatePatient(int patientNo)throws SQLException;
 	
 	/**
 	 * 의료진 숫자 변경
 	 */
-	public void updateMediStaff(int mediStaff)throws SQLException;
+	public int updateMediStaff(String userId, int mediStaff)throws SQLException;
 }
