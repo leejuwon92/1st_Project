@@ -21,12 +21,12 @@ public interface PatientDAO {
 	/**
 	 * 환자 집어넣기
 	 */
-	public void insertPatient(Patient patient) throws SQLException;
+	public int insertPatient(Patient patient) throws SQLException;
 	
 	/**
 	 * 확진자 동선 입력
 	 */
-	public void insertRoute(Route route) throws SQLException;
+	public int insertRoute(Route route) throws SQLException;
 	
 	
 }
