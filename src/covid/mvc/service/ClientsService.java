@@ -10,9 +10,7 @@ public class ClientsService {
 	ClientsDAO clientsDAO = new ClientsDAOImpl();
 	
 	public Clients login(String userId, String userPwd) throws SQLException {
-		Clients clients = 
-		
-		
-		
+		Clients clients = clientsDAO.login(userId, userPwd);
+		return clients;
 	}
 }
