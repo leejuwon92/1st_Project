@@ -1,8 +1,8 @@
 package covid.mvc.service;
 
 import covid.mvc.dao.HospitalDAO;
-import covid.mvc.dao.HospitalImpl;
+import covid.mvc.dao.HospitalDAOImpl;
 
 public class HospitalService {
-	HospitalDAO hospital=new HospitalImpl();
+	HospitalDAO hospital=new HospitalDAOImpl();
 }
