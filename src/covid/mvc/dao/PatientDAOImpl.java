@@ -9,31 +9,33 @@ import java.util.List;
 
 import covid.mvc.dto.Hospital;
 import covid.mvc.dto.Patient;
+import covid.mvc.dto.Place;
 import covid.mvc.dto.Route;
 import covid.mvc.util.DbUtil;
 
 public class PatientDAOImpl implements PatientDAO {
 
 	@Override
-	public Hospital selectHospitalByAddr(String userAddr) throws SQLException {
+	public List<Hospital> selectHospitalByAddr(String userAddr) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "";
-		Hospital hospital = null;
+		List<Hospital> list = new ArrayList<Hospital>();
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1, userAddr);
 			rs = ps.executeQuery();
-			if(rs.next()) {
-				hospital = new Hospital(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getInt(4),
+			while(rs.next()) {
+				Hospital hospital = new Hospital(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getInt(4),
 						rs.getString(5), rs.getInt(6), rs.getString(7));
+				list.add(hospital);
 			}
 		} finally {
 			DbUtil.close(con, ps, rs);
 		}
-		return hospital;
+		return list;
 	}
 
 	@Override
@@ -59,8 +61,7 @@ public class PatientDAOImpl implements PatientDAO {
 	}
 
 	@Override
-	public int insertPatient(Patient patient) throws SQLException {
-		Connection con = null;
+	public int insertPatient(Connection con, Patient patient) throws SQLException {
 		PreparedStatement ps = null;
 		String sql = "";
 		int result=0;
@@ -74,7 +75,7 @@ public class PatientDAOImpl implements PatientDAO {
 				throw new SQLException("등록 실패");
 			}
 		} finally {
-			DbUtil.close(con, ps, null);
+			DbUtil.close(null, ps, null);
 		}
 		return result;
 	}
@@ -98,5 +99,53 @@ public class PatientDAOImpl implements PatientDAO {
 			DbUtil.close(con, ps, null);
 		}
 		return result;
+	}
+	
+	@Override
+	public Hospital selectHospitalByName(String hospitalName, String sessionId) throws SQLException{
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "";
+		Hospital hospital = null;
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, hospitalName);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				hospital = new Hospital(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getInt(4),
+						rs.getString(5), rs.getInt(6), rs.getString(7));
+				if(hospital != null) {
+					Patient patient = new Patient(0, null, 1, sessionId, hospital.getHospitalCode());
+					insertPatient(con, patient);
+				}
+			}
+			
+		} finally {
+			// TODO: handle finally clause
+		}
+		return hospital;
+	}
+	
+	@Override
+	public List<Place> selectPlaceAll() throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "";
+		List<Place> list = new ArrayList<Place>();
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				Place place = new Place(rs.getString(1), rs.getString(2));
+				list.add(place);
+			}
+		} finally {
+			DbUtil.close(con, ps, rs);
+		}
+		return list;
 	}
 }

@@ -12,12 +12,12 @@ import covid.mvc.dto.Route;
 public class PatientService {
 	PatientDAO patientDAO = new PatientDAOImpl();
 	
-	public Hospital selectHospitalByAddr(String addr) throws SQLException{
-		Hospital hospital = patientDAO.selectHospitalByAddr(addr);
-		if(hospital == null) {
+	public List<Hospital> selectHospitalByAddr(String addr) throws SQLException{
+		List<Hospital> list = patientDAO.selectHospitalByAddr(addr);
+		if(list == null) {
 			throw new SQLException("주소에 해당하는 병원을 찾을 수 없습니다.");
 		}
-		return hospital;
+		return list;
 	}
 	
 	public List<Hospital> selectHospitalAll() throws SQLException{
@@ -28,12 +28,12 @@ public class PatientService {
 		return list;
 	}
 	
-	public void insertPatient(Patient patient) throws SQLException{
-		int result = patientDAO.insertPatient(patient);
+	/*public void insertPatient(Patient patient, String sessionId) throws SQLException{
+		int result = patientDAO.insertPatient(patient, sessionId);
 		if(result==0) {
 			throw new SQLException("등록에 실패했습니다.");
 		}
-	}
+	}*/
 	
 	public void insertRoute(Route route) throws SQLException{
 		int result = patientDAO.insertRoute(route);
@@ -41,5 +41,13 @@ public class PatientService {
 			throw new SQLException("등록에 실패했습니다");
 		}
 
+	}
+	
+	public Hospital selectHospitalByName(String hospitalName, String sessionId) throws SQLException{
+		Hospital hospital = patientDAO.selectHospitalByName(hospitalName, sessionId);
+		if(hospital == null) {
+			throw new SQLException("찾으시는 병원에 대한 정보가 없습니다.");
+		}
+		return hospital;
 	}
 }
