@@ -12,6 +12,10 @@ clients_type number not null, --사용자 구분 1 = 일반인 2= 확진자 3= 병원
 clients_addr varchar2(30)
 );
 
+create sequence patient_no
+start with 1
+increment by 1
+nocache;
 
 create table patient(
 patient_no number primary key,--환자번호
