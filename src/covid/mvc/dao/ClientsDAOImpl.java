@@ -101,5 +101,48 @@ public class ClientsDAOImpl implements ClientsDAO {
 		}
 		return list;
 	}
-
+	
+	@Override
+	public Seoul selectSeoulByAddr(String addr) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "";
+		Seoul seoul = null;
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, addr);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				seoul = new Seoul(rs.getString(1), rs.getInt(2), rs.getString(3));
+			}
+		} finally {
+			DbUtil.close(con, ps, rs);
+		}
+		return seoul;
+	}
+	
+	@Override
+	public int insertClients(Clients clients) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		String sql = "";
+		int result = 0;
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, clients.getUserId());
+			ps.setString(2, clients.getUserPwd());
+			ps.setInt(3, clients.getUserType());
+			ps.setString(4, clients.getUserAddr());
+			result = ps.executeUpdate();
+			if(result==0) {
+				throw new SQLException("회원가입에 실패했습니다");
+			}
+		} finally {
+			DbUtil.close(con, ps, null);
+		}
+		return result;
+	}
 }

@@ -90,6 +90,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, mediStaff);
+			ps.setString(2, userId);
 			result = ps.executeUpdate();
 			if(result == 0) {
 				con.rollback();

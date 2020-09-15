@@ -44,4 +44,11 @@ public class ClientsService {
 		}
 		return list;
 	}
+	
+	public void insertClients(Clients clients) throws SQLException{
+		int result = clientsDAO.insertClients(clients);
+		if(result == 0) {
+			throw new SQLException("");
+		}
+	}
 }
