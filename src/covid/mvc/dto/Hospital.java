@@ -90,5 +90,6 @@ public class Hospital {
 	public void setList(List<Patient> list) {
 		this.list = list;
 	}
+	
 
 }

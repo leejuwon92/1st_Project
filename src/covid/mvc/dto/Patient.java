@@ -68,7 +68,10 @@ public class Patient {
 		this.hospitalCode = hospitalCode;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return patientNo+" | " + regDate;
+	}
 	
 	
 }

@@ -1,5 +1,6 @@
 package covid.mvc.dao;
 
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -10,8 +11,8 @@ public class HospitalDAOImpl implements HospitalDAO {
 
 	@Override
 	public Hospital selectHospital(String userId) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		
+	return null;
 	}
 
 	@Override
