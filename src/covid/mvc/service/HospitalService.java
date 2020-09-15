@@ -13,11 +13,13 @@ public class HospitalService {
 	
 	public Hospital selectHospital(String userId) throws SQLException {
 		Hospital hospital = hospitalDAO.selectHospital(userId);
+		if(hospital == null) throw new SQLException(userId + " 병원이 존재하지 않습니다.");
 		return hospital;
 	}
 	
 	public List<Patient> selectByPatient(String userId) throws SQLException {
 		List<Patient> list = hospitalDAO.selectByPatient(userId);
+		if(list == null) throw new SQLException(userId + " 환자가 존재하지 않습니다.");
 		return list;
 	}
 	
