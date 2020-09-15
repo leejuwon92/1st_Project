@@ -80,7 +80,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	}
 
 	@Override
-	public int updateMediStaff(int mediStaff) throws SQLException {
+	public int updateMediStaff(String userId, int mediStaff) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		String sql = "";
