@@ -64,6 +64,7 @@ public class ClientsController {
 	
 	public static void insertClients(Clients clients) {
 		try {
+			service.insertClients(clients);
 			SuccessView.messagePrint("회원가입 성공.");
 		} catch (Exception e) {
 //			e.printStackTrace();

@@ -280,8 +280,7 @@ public class MenuView {
 		int patientCurr = sc.nextInt();
 
 		Hospital hospital = new Hospital(hospitalCode, mediStaff, hospitalName, bedNo, addr, patientCurr, userId);
-
-//		HospitalController.insertHospital(hospital);
+		HospitalController.insertHospital(hospital);
 
 	}
 }
