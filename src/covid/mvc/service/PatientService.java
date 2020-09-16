@@ -26,7 +26,6 @@ public class PatientService {
 		if(list == null) {
 			throw new SQLException("병원이 없습니다...");
 		}
-		
 		return list;
 	}
 	

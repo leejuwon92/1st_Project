@@ -56,7 +56,6 @@ public class PatientController {
 			SuccessView.messagePrint("동선이 성공적으로 입력되었습니다.");
 		}catch(Exception e) {
 			FailView.errorMessage(e.getMessage());
-			
 		}
 		
 		
