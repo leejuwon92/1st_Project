@@ -63,12 +63,15 @@ public class PatientDAOImpl implements PatientDAO {
 	@Override
 	public int insertPatient(Connection con, Patient patient) throws SQLException {
 		PreparedStatement ps = null;
-		String sql = "";
+		String sql = "insert into patient values(patient_no.nextval, sysdate, 1, ?, ?";
 		int result=0;
 		try {
 			con = DbUtil.getConnection();
 			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql);
+			ps.setString(1, patient.getUserId());
+			ps.setNString(2, patient.getHospitalCode());
+			
 			result = ps.executeUpdate();
 			if(result == 0) {
 				con.rollback();
@@ -84,12 +87,16 @@ public class PatientDAOImpl implements PatientDAO {
 	public int insertRoute(Route route) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String sql = "";
+		String sql = "insert into route values(?,?,?,?)";
 		int result=0;
 		try {
 			con = DbUtil.getConnection();
 			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql);
+			ps.setString(1, route.getDistrict());
+			ps.setString(2,route.getPlaceCode());
+			ps.setInt(3,route.getPatientNo());
+			ps.setString(4,route.getVisitDate());
 			result = ps.executeUpdate();
 			if(result == 0) {
 				con.rollback();
@@ -133,7 +140,7 @@ public class PatientDAOImpl implements PatientDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "";
+		String sql = "select*from place";
 		List<Place> list = new ArrayList<Place>();
 		try {
 			con = DbUtil.getConnection();

@@ -17,7 +17,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "";
+		String sql = "select*from hospital where clients_id=?";
 		Hospital hospital = null;
 		try {
 			con = DbUtil.getConnection();
@@ -39,7 +39,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "";
+		String sql = "select*from patient join hospital on patient.hospital_code=hospital.hospital_code where clients_id=?";
 		List<Patient> list = new ArrayList<Patient>();
 		try {
 			con = DbUtil.getConnection();
@@ -60,7 +60,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	public int updatePatient(int patientNo) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String sql = "";
+		String sql = "update patient set dis_state=0 where patient_no=?";
 		int result = 0;
 		try {
 			con = DbUtil.getConnection();
@@ -82,7 +82,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	public int updateMediStaff(String userId, int mediStaff) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String sql = "";
+		String sql = "update hospital set medi_staff=? where clients_id=?";
 		int result = 0;
 		try {
 			con = DbUtil.getConnection();
@@ -105,7 +105,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	public int insertHospital(Hospital hospital) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String sql = "";
+		String sql = "insert into hospital values(?,?,?,?,?,?,?)";
 		int result = 0;
 		try {
 			con = DbUtil.getConnection();
