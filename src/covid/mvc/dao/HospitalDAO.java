@@ -33,4 +33,9 @@ public interface HospitalDAO {
 	 * 의료진 숫자 변경
 	 */
 	public int updateMediStaff(String userId, int mediStaff)throws SQLException;
+	
+	/**
+	 * 병원 회원가입
+	 */
+	public int insertHospital(Hospital hospital) throws SQLException;
 }

@@ -5,6 +5,8 @@ import java.util.Scanner;
 import covid.mvc.controller.ClientsController;
 import covid.mvc.controller.HospitalController;
 import covid.mvc.controller.PatientController;
+import covid.mvc.dto.Clients;
+import covid.mvc.dto.Hospital;
 import covid.mvc.session.Session;
 import covid.mvc.session.SessionSet;
 
@@ -82,15 +84,16 @@ public class MenuView {
 					String addr = sc.nextLine();
 					ClientsController.selectRouteByAddr(addr);
 					break;
-				case 3:
-					ClientsController.selectByAll();
-					break;
-				case 4:
-					logout(session.getSessionId());
-					return;
-				// break;
 
 				}
+
+			case 3:
+				ClientsController.selectByAll();
+				break;
+			case 4:
+				logout(session.getSessionId(), session.getSessionAddr(), session.getSessionType());
+				return;
+			// break;
 			}
 
 		}
@@ -130,7 +133,7 @@ public class MenuView {
 				PatientController.insertRoute(district, placeCode, session.getSessionId(), visitDate);
 				break;
 			case 3:
-				logout(session.getSessionId());
+				logout(session.getSessionId(), session.getSessionAddr(), session.getSessionType());
 				return;
 			// break;
 			}
@@ -175,12 +178,11 @@ public class MenuView {
 				System.out.print("▶▶");
 				int mediStaff = Integer.parseInt(sc.nextLine());
 				HospitalController.updateMediStaff(session.getSessionId(), mediStaff);
-				
-			case 5 :
-				logout(session.getSessionId());
+
+			case 5:
+				logout(session.getSessionId(), session.getSessionAddr(), session.getSessionType());
 				return;
 			// break;
-				
 
 			}
 		}
@@ -214,16 +216,61 @@ public class MenuView {
 	/**
 	 * 로그아웃하기
 	 */
-	private static void logout(String userId) {
-		// TODO Auto-generated method stub
-
+	private static void logout(String sessionId, String sessionAddr, int sessionType) {
+		SessionSet ss = SessionSet.getInstance();
+		Session session = new Session(sessionId, null, 0);
+		ss.remove(session);
 	}
 
 	/**
 	 * 회원가입하기
 	 */
 	private static void insertClients() {
-		// TODO Auto-generated method stub
+
+		System.out.println();
+		System.out.print("아이디 : ");
+		String userId = sc.nextLine();
+
+		System.out.print("비번 : ");
+		String userPwd = sc.nextLine();
+
+		System.out.print("구분(|| 일반인:1 || 병원:2 ||) : ");
+		int userType = sc.nextInt();
+
+		System.out.print("주소 : ");
+		String userAddr = sc.nextLine();
+
+		Clients client = new Clients(userId, userPwd, userType, userAddr);
+		ClientsController.insertClients(client);
+		if (userType == 2) {
+			insertHospital(userAddr, userId);
+		}
+
+	}
+
+	/**
+	 * 병원회원가입
+	 */
+	private static void insertHospital(String addr, String userId) {
+		System.out.println();
+		System.out.print("병원 코드 : ");
+		String hospitalCode = sc.nextLine();
+
+		System.out.print("의료진 수 : ");
+		int mediStaff = sc.nextInt();
+
+		System.out.print("병원 이름 : ");
+		String hospitalName = sc.nextLine();
+
+		System.out.print("병상 수 : ");
+		int bedNo = sc.nextInt();
+
+		System.out.print("현재 환자 수 : ");
+		int patientCurr = sc.nextInt();
+
+		Hospital hospital = new Hospital(hospitalCode, mediStaff, hospitalName, bedNo, addr, patientCurr, userId);
+
+		HospitalController.insertHospital(hospital);
 
 	}
 }

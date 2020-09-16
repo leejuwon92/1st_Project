@@ -100,5 +100,34 @@ public class HospitalDAOImpl implements HospitalDAO {
 		}
 		return result;
 	}
+	
+	@Override
+	public int insertHospital(Hospital hospital) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		String sql = "";
+		int result = 0;
+		try {
+			con = DbUtil.getConnection();
+			con.setAutoCommit(false);
+			ps = con.prepareStatement(sql);
+			ps.setString(1, hospital.getHospitalCode());
+			ps.setInt(2, hospital.getMediStaff());
+			ps.setString(3, hospital.getHospitalName());
+			ps.setInt(4, hospital.getBedNo());
+			ps.setString(5, hospital.getHospitalAddr());
+			ps.setInt(6, hospital.getPatientCurr());
+			ps.setString(7, hospital.getUserId());
+			result = ps.executeUpdate();
+			if(result == 0) {
+				con.rollback();
+				throw new SQLException("병원 회원가입에 실패하였습니다.");
+			}
+		} finally {
+			DbUtil.close(con, ps, null);
+			con.commit();
+		}
+		return result;
+	}
 
 }
