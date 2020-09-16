@@ -45,10 +45,6 @@ public class Seoul {
 		return "[확진자 발생구역]:"+district+" | "+"[확진자 수]:"+dis_patient+"[구역별 위험도]"+hazard;
 	}
 	
-	@Override
-	public String toString() {
-		return "내 동네 현재 확진자 수 " + getDis_patient() + "\n위험도" + getHazard();
-	}
 
 
 
