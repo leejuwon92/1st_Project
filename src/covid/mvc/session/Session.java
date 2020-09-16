@@ -55,11 +55,7 @@ public class Session {
 		return sessionId.hashCode();
 	}
 
-	@Override
-	public String toString() {
-		return "내 동네 현재 확진자 수 " + seoul.getDis_patient() + "\n위험도" + seoul.getHazard();
-	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		Session other = (Session) obj;

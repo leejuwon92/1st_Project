@@ -22,7 +22,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Clients clients = null;
-		String sql = "";
+		String sql = "select * from clients where clients_id = ? and clients_pw = ?";
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -109,12 +109,12 @@ public class ClientsDAOImpl implements ClientsDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "";
+		String sql = "select * from seoul where district like ?";
 		Seoul seoul = null;
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setString(1, addr);
+			ps.setString(1, "%"+addr+"%");
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				seoul = new Seoul(rs.getString(1), rs.getInt(2), rs.getString(3));

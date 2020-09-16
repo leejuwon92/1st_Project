@@ -51,6 +51,7 @@ public class MenuView {
 			System.out.println(ss.getSet());
 			System.out.println("====================================================");
 			System.out.println("-----" + session.getSessionId() + "님 반갑습니다^^------");
+			System.out.println("우리시 현황 : "+session.getSeoul());
 			System.out.println("==============*오늘도 건강한 하루되세요*============");
 			System.out.println("====================================================");
 			System.out.println("------------원하는 메뉴 번호를 눌러 주세요----------");
@@ -223,7 +224,6 @@ public class MenuView {
 	 * 회원가입하기
 	 */
 	private static void insertClients() {
-		// TODO Auto-generated method stub
-
+		
 	}
 }

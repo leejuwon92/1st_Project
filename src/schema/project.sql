@@ -66,15 +66,15 @@ insert into drug values('빙그레약국', '서울시 강남구', 10);
 
 insert into route values('도봉구', 'A', 1, '2020-09-02');
 
-insert into place values('A', '식당');
+insert into place values('A01', '식당');
 
 insert into seoul values('도봉구', 57, '고');
 
-insert into clients values('id', 'pwd', 1);
+insert into clients values('id', 'pwd', 1, '도봉구');
 
 insert into hospital values('A01',120,'아산병원', 300, '서울시 송파구', 1, 'id');
 
-insert into patient values(1, sysdate, 1, 'id', '서울시 강북구', 'A01');
+insert into patient values(1, sysdate, 1, 'id', 'A01');
 
 
 select * from drug; --데이터 삽입 완료.
@@ -93,3 +93,10 @@ drop table clients;
 drop table hospital;
 drop table patient;
 drop table drug;
+
+select * from clients where clients_id = 'aa' && clients_pw = '123';
+
+insert into clients values('aa', '123', 1, '도봉구');
+
+select * from seoul where district like '도봉구';
+select * from clients;
