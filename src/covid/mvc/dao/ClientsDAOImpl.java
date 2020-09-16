@@ -142,7 +142,6 @@ public class ClientsDAOImpl implements ClientsDAO {
 			if(rs.next()) {
 				throw new SQLException("아이디가 이미 존재합니다. 다른 아이디로 회원가입 해주세요.");
 			}
-			ps.
 			ps = con.prepareStatement(sql2);
 			ps.setString(1, clients.getUserId());
 			ps.setString(2, clients.getUserPwd());

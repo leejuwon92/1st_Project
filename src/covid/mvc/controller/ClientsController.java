@@ -18,10 +18,8 @@ public class ClientsController {
 		try {
 			Clients clients = service.login(userId, userPwd);
 			Session session=new Session(clients.getUserId(),clients.getUserAddr(),clients.getUserType());
-//			Seoul seoul = dao.selectSeoulByAddr(session.getSessionAddr());
-//			session.setSeoul(seoul);
-//			임시 서울 가져오기 
-//			컨트롤러가 완성되면 dao 객체 생성 코드랑 함께 지워주세요
+			Seoul seoul = service.selectSeoulByAddr(session.getSessionAddr());
+			session.setSeoul(seoul);
 			if(session.getSessionType()==1) {
 				MenuView.printClientsMenu(session);
 			}
@@ -32,7 +30,7 @@ public class ClientsController {
 				MenuView.printHospitalMenu(session);
 			}
 		} catch (Exception e) {
-			//FailView.errorMessage(e.getMessage());
+			FailView.errorMessage(e.getMessage());
 		}
 
 	}
@@ -40,7 +38,7 @@ public class ClientsController {
 		try {
 			SuccessView.printDrug(service.selectMaskByAddr(addr));
 			}catch(Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
@@ -49,7 +47,7 @@ public class ClientsController {
 		try {
 			SuccessView.printRoute(service.selectRouteByAddr(addr));
 		}catch(Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
@@ -59,11 +57,18 @@ public class ClientsController {
 			SuccessView.printSeoul(service.selectByAll());
 			
 		}catch(Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
 	
-	
+	public static void insertClients(Clients clients) {
+		try {
+			SuccessView.messagePrint("회원가입 성공.");
+		} catch (Exception e) {
+//			e.printStackTrace();
+			FailView.errorMessage(e.getMessage());
+		}
+	}
 
 }

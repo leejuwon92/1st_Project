@@ -49,7 +49,15 @@ public class ClientsService {
 	public void insertClients(Clients clients) throws SQLException{
 		int result = clientsDAO.insertClients(clients);
 		if(result == 0) {
-			throw new SQLException("");
+			throw new SQLException("회원가입 실패");
 		}
+	}
+	
+	public Seoul selectSeoulByAddr(String addr) throws SQLException{
+		Seoul seoul = clientsDAO.selectSeoulByAddr(addr);
+		if(seoul == null) {
+			throw new SQLException("정보가 없습니다");
+		}
+		return seoul;
 	}
 }
