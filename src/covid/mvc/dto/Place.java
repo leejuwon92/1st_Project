@@ -27,6 +27,16 @@ public class Place {
 	public void setPlaceType(String placeType) {
 		this.placeType = placeType;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[장소 이름]");
+		builder.append(placeType);
+		builder.append(" | [장소 코드]");
+		builder.append(placeCode);
+		return builder.toString();
+	}
     
     
 

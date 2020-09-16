@@ -1,12 +1,13 @@
 package covid.mvc.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import covid.mvc.dao.PatientDAO;
 import covid.mvc.dao.PatientDAOImpl;
 import covid.mvc.dto.Hospital;
-import covid.mvc.dto.Patient;
+import covid.mvc.dto.Place;
 import covid.mvc.dto.Route;
 
 public class PatientService {
@@ -28,6 +29,9 @@ public class PatientService {
 		return list;
 	}
 	
+	/*
+	 **Dao단에서 환자 등록 자동이므로 필요없음
+	 * */
 	/*public void insertPatient(Patient patient, String sessionId) throws SQLException{
 		int result = patientDAO.insertPatient(patient, sessionId);
 		if(result==0) {
@@ -38,7 +42,7 @@ public class PatientService {
 	public void insertRoute(Route route) throws SQLException{
 		int result = patientDAO.insertRoute(route);
 		if(result == 0) {
-			throw new SQLException("등록에 실패했습니다");
+			throw new SQLException("등록에 실패했습니다. 올바른 장소코드를 입력하여 주십시오");
 		}
 
 	}
@@ -49,5 +53,14 @@ public class PatientService {
 			throw new SQLException("찾으시는 병원에 대한 정보가 없습니다.");
 		}
 		return hospital;
+	}
+	
+	public List<Place> selectPlaceAll() throws SQLException{
+		List<Place>list= new ArrayList<Place>();
+		list=patientDAO.selectPlaceAll();
+		if(list==null) {
+			throw new SQLException("장소가 존재 하지 않습니다");
+		}
+		return list;
 	}
 }

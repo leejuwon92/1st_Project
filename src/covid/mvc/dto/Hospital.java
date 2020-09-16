@@ -9,7 +9,7 @@ public class Hospital {
 	private String hospitalName;
 	private int bedNo;
 	private String hospitalAddr;
-	private int patient_curr;
+	private int patientCurr;
 	private String userId;
 	private List<Patient> list = new ArrayList<Patient>();
 
@@ -17,13 +17,13 @@ public class Hospital {
 	}
 
 	public Hospital(String hospitalCode, int mediStaff, String hospitalName, int bedNo, String hospitalAddr,
-			int patient_curr, String userId) {
+			int patientCurr, String userId) {
 		this.hospitalCode = hospitalCode;
 		this.mediStaff = mediStaff;
 		this.hospitalName = hospitalName;
 		this.bedNo = bedNo;
 		this.hospitalAddr = hospitalAddr;
-		this.patient_curr = patient_curr;
+		this.patientCurr = patientCurr;
 		this.userId = userId;
 	}
 
@@ -67,12 +67,12 @@ public class Hospital {
 		this.hospitalAddr = hospitalAddr;
 	}
 
-	public int getPatient_curr() {
-		return patient_curr;
+	public int getPatientCurr() {
+		return patientCurr;
 	}
 
-	public void setPatient_curr(int patient_curr) {
-		this.patient_curr = patient_curr;
+	public void setPatientCurr(int patientCurr) {
+		this.patientCurr = patientCurr;
 	}
 
 	public String getUserId() {
@@ -90,6 +90,34 @@ public class Hospital {
 	public void setList(List<Patient> list) {
 		this.list = list;
 	}
-	
+
+	/**
+	 * 환자 입장에서 병원조회
+	 * */
+	public String patientHospital(){
+		StringBuilder builder = new StringBuilder();
+		builder.append("[병원 이름]");
+		builder.append(hospitalName);
+		builder.append(" | [현재 수용 가능 환자 수]");
+		builder.append(bedNo);
+		builder.append(" | [병원 주소]");
+		builder.append(hospitalAddr);
+		return builder.toString();	
+	}
+	/**
+	 * 병원입장에서 자기 병원조회
+	 * */
+	public String hospitalHospital() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[병원 이름]");
+		builder.append(hospitalName);
+		builder.append(" | [현재 의료진 수]");
+		builder.append(mediStaff);
+		builder.append(" | [잔여 병상수]");
+		builder.append(bedNo);
+		builder.append(" | [현재 수용환자 수]");
+		builder.append(patientCurr);
+		return builder.toString();
+	}
 
 }

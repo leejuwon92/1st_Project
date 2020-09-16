@@ -5,6 +5,8 @@ import java.util.Scanner;
 import covid.mvc.controller.ClientsController;
 import covid.mvc.controller.HospitalController;
 import covid.mvc.controller.PatientController;
+import covid.mvc.dao.PatientDAO;
+import covid.mvc.dto.Route;
 import covid.mvc.session.Session;
 import covid.mvc.session.SessionSet;
 
@@ -121,13 +123,14 @@ public class MenuView {
 				System.out.print("▶▶");
 				String district = sc.nextLine();
 				System.out.println("방문하신 장소의 코드를 참조하여 입력하세요");
-				// 장소코드 보여줄 메소드추가
+				PatientController.selectPlaceAll();
 				System.out.print("▶▶");
 				String placeCode = sc.nextLine();
 				System.out.println("장소를 방문하신 날짜를 입력하여 주세요(예:2020-08-13)");
 				System.out.print("▶▶");
 				String visitDate = sc.nextLine();
-				PatientController.insertRoute(district, placeCode, session.getSessionId(), visitDate);
+				Route route = new Route(district, placeCode, session.getSessionId(), 0, visitDate);
+				PatientController.insertRoute(route);
 				break;
 			case 3:
 				logout(session.getSessionId());
