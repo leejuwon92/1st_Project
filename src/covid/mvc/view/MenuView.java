@@ -5,8 +5,8 @@ import java.util.Scanner;
 import covid.mvc.controller.ClientsController;
 import covid.mvc.controller.HospitalController;
 import covid.mvc.controller.PatientController;
-import covid.mvc.dao.PatientDAO;
-import covid.mvc.dto.Route;
+import covid.mvc.dto.Clients;
+import covid.mvc.dto.Hospital;
 import covid.mvc.session.Session;
 import covid.mvc.session.SessionSet;
 
@@ -53,7 +53,6 @@ public class MenuView {
 			System.out.println(ss.getSet());
 			System.out.println("====================================================");
 			System.out.println("-----" + session.getSessionId() + "님 반갑습니다^^------");
-			System.out.println("우리시 현황 : "+session.getSeoul());
 			System.out.println("==============*오늘도 건강한 하루되세요*============");
 			System.out.println("====================================================");
 			System.out.println("------------원하는 메뉴 번호를 눌러 주세요----------");
@@ -85,15 +84,16 @@ public class MenuView {
 					String addr = sc.nextLine();
 					ClientsController.selectRouteByAddr(addr);
 					break;
-				case 3:
-					ClientsController.selectByAll();
-					break;
-				case 4:
-					logout(session.getSessionId());
-					return;
-				// break;
 
 				}
+
+			case 3:
+				ClientsController.selectByAll();
+				break;
+			case 4:
+				logout(session.getSessionId(), session.getSessionAddr(), session.getSessionType());
+				return;
+			// break;
 			}
 
 		}
@@ -124,17 +124,16 @@ public class MenuView {
 				System.out.print("▶▶");
 				String district = sc.nextLine();
 				System.out.println("방문하신 장소의 코드를 참조하여 입력하세요");
-				PatientController.selectPlaceAll();
+				// 장소코드 보여줄 메소드추가
 				System.out.print("▶▶");
 				String placeCode = sc.nextLine();
 				System.out.println("장소를 방문하신 날짜를 입력하여 주세요(예:2020-08-13)");
 				System.out.print("▶▶");
 				String visitDate = sc.nextLine();
-				Route route = new Route(district, placeCode, session.getSessionId(), 0, visitDate);
-				PatientController.insertRoute(route);
+				PatientController.insertRoute(district, placeCode, session.getSessionId(), visitDate);
 				break;
 			case 3:
-				logout(session.getSessionId());
+				logout(session.getSessionId(), session.getSessionAddr(), session.getSessionType());
 				return;
 			// break;
 			}
@@ -179,12 +178,11 @@ public class MenuView {
 				System.out.print("▶▶");
 				int mediStaff = Integer.parseInt(sc.nextLine());
 				HospitalController.updateMediStaff(session.getSessionId(), mediStaff);
-				
-			case 5 :
-				logout(session.getSessionId());
+
+			case 5:
+				logout(session.getSessionId(), session.getSessionAddr(), session.getSessionType());
 				return;
 			// break;
-				
 
 			}
 		}
@@ -218,15 +216,61 @@ public class MenuView {
 	/**
 	 * 로그아웃하기
 	 */
-	private static void logout(String userId) {
-		// TODO Auto-generated method stub
-
+	private static void logout(String sessionId, String sessionAddr, int sessionType) {
+		SessionSet ss = SessionSet.getInstance();
+		Session session = new Session(sessionId, null, 0);
+		ss.remove(session);
 	}
 
 	/**
 	 * 회원가입하기
 	 */
 	private static void insertClients() {
-		
+
+		System.out.println();
+		System.out.print("아이디 : ");
+		String userId = sc.nextLine();
+
+		System.out.print("비번 : ");
+		String userPwd = sc.nextLine();
+
+		System.out.print("구분(|| 일반인:1 || 병원:2 ||) : ");
+		int userType = sc.nextInt();
+
+		System.out.print("주소 : ");
+		String userAddr = sc.nextLine();
+
+		Clients client = new Clients(userId, userPwd, userType, userAddr);
+		ClientsController.insertClients(client);
+		if (userType == 2) {
+			insertHospital(userAddr, userId);
+		}
+
+	}
+
+	/**
+	 * 병원회원가입
+	 */
+	private static void insertHospital(String addr, String userId) {
+		System.out.println();
+		System.out.print("병원 코드 : ");
+		String hospitalCode = sc.nextLine();
+
+		System.out.print("의료진 수 : ");
+		int mediStaff = sc.nextInt();
+
+		System.out.print("병원 이름 : ");
+		String hospitalName = sc.nextLine();
+
+		System.out.print("병상 수 : ");
+		int bedNo = sc.nextInt();
+
+		System.out.print("현재 환자 수 : ");
+		int patientCurr = sc.nextInt();
+
+		Hospital hospital = new Hospital(hospitalCode, mediStaff, hospitalName, bedNo, addr, patientCurr, userId);
+
+		HospitalController.insertHospital(hospital);
+
 	}
 }
