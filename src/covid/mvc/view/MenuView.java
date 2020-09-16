@@ -239,14 +239,6 @@ public class MenuView {
 
 		System.out.print("구분(|| 일반인:1 || 병원:2 ||) : ");
 		int userType = sc.nextInt();
-		if(userType < 3 && userType > 0) {
-			if(userType == 2) {
-				userType = 3;
-			} 
-		} else {
-			System.out.println("번호 입력 오류입니다.");
-			return;
-		}
 		
 		System.out.print("주소 : ");
 		String userAddr = sc.nextLine();

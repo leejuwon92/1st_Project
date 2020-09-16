@@ -106,7 +106,7 @@ drop table drug;
 
 select * from clients where clients_id = 'aa' && clients_pw = '123';
 
-insert into clients values('aa', '123', 1, 'µµºÀ±¸');
+insert into clients values('aaa', '123', 1, null);
 
 select * from seoul where district like 'µµºÀ±¸';
 select * from clients;

@@ -12,7 +12,6 @@ import covid.mvc.view.SuccessView;
 
 public class ClientsController {
 	private static ClientsService service = new ClientsService();
-	private static ClientsDAOImpl dao = new ClientsDAOImpl();
 
 	public static void login(String userId, String userPwd) {
 		try {
