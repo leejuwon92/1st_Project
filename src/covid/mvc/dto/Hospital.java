@@ -91,6 +91,7 @@ public class Hospital {
 		this.list = list;
 	}
 
+
 	/**
 	 * 환자 입장에서 병원조회
 	 * */

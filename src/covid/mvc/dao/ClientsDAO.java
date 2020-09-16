@@ -5,7 +5,7 @@ import java.util.List;
 
 import covid.mvc.dto.Clients;
 import covid.mvc.dto.Drug;
-import covid.mvc.dto.Patient;
+import covid.mvc.dto.Route;
 import covid.mvc.dto.Seoul;
 
 
@@ -18,12 +18,12 @@ public interface ClientsDAO {
 	/**
 	 * 주소 기반으로 마스크 재고가 있는 약국 
 	 */
-	public Drug selectMaskByAddr(String userAddr)throws SQLException;
+	public List<Drug> selectMaskByAddr(String userAddr)throws SQLException;
 	
 	/**
 	 * 확진자 동선 조회
 	 */
-	public List<Patient> selectRouteByAddr(String userAddr) throws SQLException;
+	public List<Route> selectRouteByAddr(String userAddr) throws SQLException;
 	
 	/**
 	 * 서울시 전체 확진자 조회

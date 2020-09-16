@@ -10,6 +10,7 @@ import java.util.List;
 import covid.mvc.dto.Clients;
 import covid.mvc.dto.Drug;
 import covid.mvc.dto.Patient;
+import covid.mvc.dto.Route;
 import covid.mvc.dto.Seoul;
 import covid.mvc.util.DbUtil;
 
@@ -21,7 +22,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Clients clients = null;
-		String sql = "";
+		String sql = "select * from clients where clients_id = ? and clients_pw = ?";
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -38,11 +39,11 @@ public class ClientsDAOImpl implements ClientsDAO {
 	}
 
 	@Override
-	public Drug selectMaskByAddr(String userAddr) throws SQLException {
+	public List<Drug> selectMaskByAddr(String userAddr) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		Drug drugStore = null;
+		List<Drug> list = new ArrayList<Drug>();
 		String sql = "";
 		try {
 			con = DbUtil.getConnection();
@@ -50,20 +51,21 @@ public class ClientsDAOImpl implements ClientsDAO {
 			ps.setString(1, userAddr);
 			rs = ps.executeQuery();
 			if(rs.next()) {
-				drugStore = new Drug(rs.getNString(1), rs.getString(2), rs.getInt(3));
+				Drug drug = new Drug(rs.getNString(1), rs.getString(2), rs.getInt(3));
+				list.add(drug);
 			}
 		} finally {
 			DbUtil.close(con, ps, rs);
 		}
-		return drugStore;
+		return list;
 	}
 
 	@Override
-	public List<Patient> selectRouteByAddr(String addr) throws SQLException {
+	public List<Route> selectRouteByAddr(String addr) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<Patient> list = new ArrayList<Patient>();
+		List<Route> list = new ArrayList<Route>();
 		String sql = "";
 		try {
 			con = DbUtil.getConnection();
@@ -71,8 +73,8 @@ public class ClientsDAOImpl implements ClientsDAO {
 			ps.setString(1, addr);
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				Patient patient = new Patient(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5));
-				list.add(patient);
+				Route route = new Route(rs.getString(1), rs.getString(2), null, rs.getInt(4),rs.getString(5));
+				list.add(route);
 			}
 		} finally {
 			DbUtil.close(con, ps, rs);
@@ -107,12 +109,12 @@ public class ClientsDAOImpl implements ClientsDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "";
+		String sql = "select * from seoul where district like ?";
 		Seoul seoul = null;
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setString(1, addr);
+			ps.setString(1, "%"+addr+"%");
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				seoul = new Seoul(rs.getString(1), rs.getInt(2), rs.getString(3));

@@ -5,7 +5,6 @@ public class Route {
     private String placeCode;//장소코드 겸 장소이름 겸용
     private String userId;//환자아이디
     private int patientNo;//환자번호
-
     private String visitDate;//방문날짜
     
     public Route() {}

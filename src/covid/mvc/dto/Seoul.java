@@ -37,8 +37,15 @@ public class Seoul {
 	public void setHazard(String hazard) {
 		this.hazard = hazard;
 	}
+
+	@Override
+	public String toString() {
 	
+		
+		return "[확진자 발생구역]:"+district+" | "+"[확진자 수]:"+dis_patient+"[구역별 위험도]"+hazard;
+	}
 	
+
 
 
 }

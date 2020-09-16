@@ -7,7 +7,7 @@ import covid.mvc.dao.ClientsDAO;
 import covid.mvc.dao.ClientsDAOImpl;
 import covid.mvc.dto.Clients;
 import covid.mvc.dto.Drug;
-import covid.mvc.dto.Patient;
+import covid.mvc.dto.Route;
 import covid.mvc.dto.Seoul;
 
 public class ClientsService {
@@ -22,16 +22,16 @@ public class ClientsService {
 		return clients;
 	}
 	
-	public Drug selectMaskByAddr(String addr) throws SQLException{
-		Drug drug = clientsDAO.selectMaskByAddr(addr);
+	public List<Drug> selectMaskByAddr(String addr) throws SQLException{
+		List<Drug> drug = clientsDAO.selectMaskByAddr(addr);
 		if(drug == null) {
 			throw new SQLException("주소를 찾을수 없습니다.");
 		}
 		return drug;
 	}
 	
-	public List<Patient> selectRouteByAddr(String addr) throws SQLException{
-		List<Patient> list = clientsDAO.selectRouteByAddr(addr);
+	public List<Route> selectRouteByAddr(String addr) throws SQLException{
+		List<Route> list = clientsDAO.selectRouteByAddr(addr);
 		if(list == null) {
 			throw new SQLException("주소를 찾을수 없습니다.");
 		}
