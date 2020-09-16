@@ -107,20 +107,17 @@ public class ClientsDAOImpl implements ClientsDAO {
 	
 	@Override
 	public Seoul selectSeoulByAddr(String addr) throws SQLException {
-		System.out.println("머가문제에요");
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "select * from seoul where district = ?";
 		Seoul seoul = null;
 		try {
-			System.out.println("머가문제에요2");
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1, addr);
 			rs = ps.executeQuery();
 			if(rs.next()) {
-				System.out.println("머가문제에요3");
 				seoul = new Seoul(rs.getString(1), rs.getInt(2), rs.getString(3));
 			}
 		} finally {
