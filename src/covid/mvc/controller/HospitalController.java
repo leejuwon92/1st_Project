@@ -1,3 +1,4 @@
+  
 package covid.mvc.controller;
 
 import java.sql.SQLException;
@@ -9,6 +10,7 @@ import covid.mvc.view.SuccessView;
 
 public class HospitalController {
 	private static HospitalService service=new HospitalService();
+
 
 	public static void selectHospital(String userId) {
 		try {
