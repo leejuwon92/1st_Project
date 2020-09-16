@@ -44,7 +44,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Drug> list = new ArrayList<Drug>();
-		String sql = "";
+		String sql = "select * from drug where d_addr =?";
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -66,7 +66,8 @@ public class ClientsDAOImpl implements ClientsDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Route> list = new ArrayList<Route>();
-		String sql = "";
+		String sql = "select district,place_type, patient_no,visit_date from route join place using(place_code) "
+				+ "where district=?";
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -88,7 +89,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Seoul> list = new ArrayList<Seoul>();
-		String sql = "";
+		String sql = "select * from seoul";
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -131,7 +132,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql1 = "select clients_id from clients where clients_id=?";
-		String sql2 = "intsert-------";
+		String sql2 = "insert into clients values(?,?,?,?)";
 
 		int result = 0;
 		try {

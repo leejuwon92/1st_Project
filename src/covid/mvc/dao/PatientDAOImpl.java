@@ -20,7 +20,7 @@ public class PatientDAOImpl implements PatientDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "";
+		String sql = "select *from Hospital where hospital_addr = ?";
 		List<Hospital> list = new ArrayList<Hospital>();
 		try {
 			con = DbUtil.getConnection();
@@ -43,7 +43,7 @@ public class PatientDAOImpl implements PatientDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "";
+		String sql = "select * from Hospital";
 		List<Hospital> list = new ArrayList<Hospital>();
 		try {
 			con = DbUtil.getConnection();
@@ -113,12 +113,13 @@ public class PatientDAOImpl implements PatientDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "";
+		String sql = "select * from Hospital where Hospital_name =?  and cliend_id = ?";
 		Hospital hospital = null;
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1, hospitalName);
+			ps.setString(2, sessionId);
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				hospital = new Hospital(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getInt(4),
@@ -141,6 +142,7 @@ public class PatientDAOImpl implements PatientDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "select*from place";
+
 		List<Place> list = new ArrayList<Place>();
 		try {
 			con = DbUtil.getConnection();
