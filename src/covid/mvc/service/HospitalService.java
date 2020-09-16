@@ -32,4 +32,9 @@ public class HospitalService {
 		int result = hospitalDAO.updateMediStaff(userId, mediStaff);
 		if(result == 0) throw new SQLException(mediStaff + " 명으로 수정되지 않았습니다.");
 	}
+	
+	public void insertHospital(Hospital hospital) throws SQLException {
+		int result = hospitalDAO.insertHospital(hospital);
+		if(result == 0) throw new SQLException(" 병원 회원이 생성되지 않았습니다.");
+	}
 }
