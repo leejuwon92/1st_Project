@@ -7,6 +7,7 @@ import covid.mvc.controller.HospitalController;
 import covid.mvc.controller.PatientController;
 import covid.mvc.dto.Clients;
 import covid.mvc.dto.Hospital;
+import covid.mvc.dto.Route;
 import covid.mvc.session.Session;
 import covid.mvc.session.SessionSet;
 
@@ -53,6 +54,7 @@ public class MenuView {
 			System.out.println(ss.getSet());
 			System.out.println("====================================================");
 			System.out.println("-----" + session.getSessionId() + "님 반갑습니다^^------");
+			System.out.println(session.getSeoul());
 			System.out.println("==============*오늘도 건강한 하루되세요*============");
 			System.out.println("====================================================");
 			System.out.println("------------원하는 메뉴 번호를 눌러 주세요----------");
@@ -130,7 +132,8 @@ public class MenuView {
 				System.out.println("장소를 방문하신 날짜를 입력하여 주세요(예:2020-08-13)");
 				System.out.print("▶▶");
 				String visitDate = sc.nextLine();
-				PatientController.insertRoute(district, placeCode, session.getSessionId(), visitDate);
+				Route route = new Route(district, placeCode, session.getSessionId(), 0, visitDate);
+				PatientController.insertRoute(route);
 				break;
 			case 3:
 				logout(session.getSessionId(), session.getSessionAddr(), session.getSessionType());
@@ -236,7 +239,15 @@ public class MenuView {
 
 		System.out.print("구분(|| 일반인:1 || 병원:2 ||) : ");
 		int userType = sc.nextInt();
-
+		if(userType < 3 && userType > 0) {
+			if(userType == 2) {
+				userType = 3;
+			} 
+		} else {
+			System.out.println("번호 입력 오류입니다.");
+			return;
+		}
+		
 		System.out.print("주소 : ");
 		String userAddr = sc.nextLine();
 
@@ -269,7 +280,6 @@ public class MenuView {
 		int patientCurr = sc.nextInt();
 
 		Hospital hospital = new Hospital(hospitalCode, mediStaff, hospitalName, bedNo, addr, patientCurr, userId);
-
 		HospitalController.insertHospital(hospital);
 
 	}

@@ -129,11 +129,20 @@ public class ClientsDAOImpl implements ClientsDAO {
 	public int insertClients(Clients clients) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String sql = "";
+		ResultSet rs = null;
+		String sql1 = "select clients_id from clients where clients_id=?";
+		String sql2 = "intsert-------";
+
 		int result = 0;
 		try {
 			con = DbUtil.getConnection();
-			ps = con.prepareStatement(sql);
+			ps = con.prepareStatement(sql1);
+			ps.setString(1, clients.getUserAddr());
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				throw new SQLException("아이디가 이미 존재합니다. 다른 아이디로 회원가입 해주세요.");
+			}
+			ps = con.prepareStatement(sql2);
 			ps.setString(1, clients.getUserId());
 			ps.setString(2, clients.getUserPwd());
 			ps.setInt(3, clients.getUserType());
