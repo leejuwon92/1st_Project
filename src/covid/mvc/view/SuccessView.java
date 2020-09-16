@@ -10,11 +10,13 @@ import covid.mvc.dto.Place;
 import covid.mvc.dto.Route;
 import covid.mvc.dto.Seoul;
 
+
 public class SuccessView {
-	public static void printClients(List<Clients> list) {
+	public static void Clients(){
 		System.out.println("------------------로그인 성공 ---------------");
 
 	}
+
 
 	/**
 	 * 수정, 삭제, 등록 성공 메시지 출력
@@ -78,6 +80,4 @@ public class SuccessView {
 				System.out.println(place);
 			}
 		}
-
-
 }

@@ -1,3 +1,4 @@
+  
 package covid.mvc.controller;
 
 import covid.mvc.service.HospitalService;
@@ -6,6 +7,7 @@ import covid.mvc.view.SuccessView;
 
 public class HospitalController {
 	private static HospitalService service=new HospitalService();
+
 
 	public static void selectHospital(String userId) {
 		try {
