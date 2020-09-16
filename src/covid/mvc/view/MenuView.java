@@ -257,6 +257,8 @@ public class MenuView {
 		
 		System.out.print("аж╪р : ");
 		String userAddr = sc.nextLine();
+		
+		
 
 		Clients client = new Clients(userId, userPwd, userType, userAddr);
 		System.out.println(client.getUserAddr());

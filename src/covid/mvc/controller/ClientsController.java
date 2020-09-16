@@ -20,7 +20,6 @@ public class ClientsController {
 		try {
 			Clients clients = service.login(userId, userPwd);
 			Session session=new Session(clients.getUserId(),clients.getUserAddr(),clients.getUserType());
-			
 			if(session.getSessionType()==1) {
 				Seoul seoul = service.selectSeoulByAddr(session.getSessionAddr());
 				session.setSeoul(seoul);
