@@ -1,9 +1,12 @@
 package covid.mvc.controller;
 
+import java.sql.SQLException;
+import java.util.List;
+
+import covid.mvc.dto.Hospital;
 import covid.mvc.dto.Route;
 import covid.mvc.service.PatientService;
 import covid.mvc.view.FailView;
-import covid.mvc.view.MenuView;
 import covid.mvc.view.SuccessView;
 
 public class PatientController {
@@ -11,13 +14,19 @@ public class PatientController {
 
 	public static void selectHospitalByAddr(String addr) {
 		try {
+			List<Hospital> list = service.selectHospitalByAddr(addr);
 			SuccessView.printHospital(service.selectHospitalByAddr(addr));
 			
 		}catch(Exception e){
 			FailView.errorMessage(e.getMessage());
-			selectHospitalAll();
-			MenuView.selectHospitalByName(null);
-			
+			List<Hospital> list;
+			try {
+				list = service.selectHospitalAll();
+				SuccessView.printHospital(list);
+
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 

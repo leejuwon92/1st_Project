@@ -44,7 +44,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Drug> list = new ArrayList<Drug>();
-		String sql = "";
+		String sql = "select * from drug where d_addr =?";
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -66,14 +66,16 @@ public class ClientsDAOImpl implements ClientsDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Route> list = new ArrayList<Route>();
-		String sql = "";
+		String sql = "select district,place_type, patient_no,visit_date from route join place using(place_code)"
+				+ "where district like ?";
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setString(1, addr);
+			ps.setString(1, "'%"+addr+"%'");
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				Route route = new Route(rs.getString(1), rs.getString(2), null, rs.getInt(4),rs.getString(5));
+				System.out.println(rs.getNString(1)+rs.getString(2)+ null+ rs.getInt(4)+rs.getString(5));
 				list.add(route);
 			}
 		} finally {
@@ -88,7 +90,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Seoul> list = new ArrayList<Seoul>();
-		String sql = "";
+		String sql = "select * from seoul";
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -130,12 +132,14 @@ public class ClientsDAOImpl implements ClientsDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		
 		String sql1 = "select clients_id from clients where clients_id=?";
 		String sql2 = "insert into clients values(?, ?, ?, ?)";
 
 		int result = 0;
 		try {
 			con = DbUtil.getConnection();
+			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql1);
 			ps.setString(1, clients.getUserAddr());
 			rs = ps.executeQuery();
@@ -155,6 +159,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 				throw new SQLException("회원가입에 실패했습니다");
 			}
 		} finally {
+			con.commit();
 			DbUtil.close(con, ps, null);
 		}
 		return result;

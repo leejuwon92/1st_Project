@@ -31,6 +31,7 @@ public class ClientsService {
 	}
 	
 	public List<Route> selectRouteByAddr(String addr) throws SQLException{
+		System.out.println("service" +addr);
 		List<Route> list = clientsDAO.selectRouteByAddr(addr);
 		if(list == null) {
 			throw new SQLException("주소를 찾을수 없습니다.");

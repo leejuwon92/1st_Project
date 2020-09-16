@@ -68,7 +68,7 @@ public class SuccessView {
 	 */
 	public static void printHospital(List<Hospital> list) {
 		for (Hospital hospital : list) {
-			System.out.println(hospital.hospitalHospital());
+			System.out.println(hospital.patientHospital());
 		}
 	}
 

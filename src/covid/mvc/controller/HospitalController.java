@@ -16,7 +16,7 @@ public class HospitalController {
 		try {
 			SuccessView.printHospital(service.selectHospital(userId));
 		}catch(Exception e) {
-//			e.printStackTrace();
+			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
@@ -25,7 +25,7 @@ public class HospitalController {
 		try {
 			SuccessView.printCurrentPatient(service.selectByPatient(userId));
 		}catch(Exception e) {
-//			e.printStackTrace();
+			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
@@ -35,7 +35,7 @@ public class HospitalController {
 			SuccessView.messagePrint("환자 상태가 변경되었습니다");
 			service.updatePatient(patientNo);
 		}catch(Exception e) {
-//			e.printStackTrace();
+			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
@@ -45,15 +45,15 @@ public class HospitalController {
 			SuccessView.messagePrint("의료진 상태가 변경되었습니다.");
 			service.updateMediStaff(userId, mediStaff);
 		}catch(Exception e) {
-//			e.printStackTrace();
+			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
 
 	public static void insertHospital(Hospital hospital) {
 		try {
-			SuccessView.messagePrint("병원회원이 생성되었습니다.");
 			service.insertHospital(hospital);
+			SuccessView.messagePrint("병원회원이 생성되었습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
