@@ -38,7 +38,11 @@ public class Seoul {
 		this.hazard = hazard;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "내 동네 현재 확진자 수 " + getDis_patient() + "\n위험도" + getHazard();
+	}
+
 
 
 }
