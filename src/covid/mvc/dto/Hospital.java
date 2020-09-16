@@ -9,7 +9,7 @@ public class Hospital {
 	private String hospitalName;
 	private int bedNo;
 	private String hospitalAddr;
-	private int patient_curr;
+	private int patientCurr;
 	private String userId;
 	private List<Patient> list = new ArrayList<Patient>();
 
@@ -17,13 +17,13 @@ public class Hospital {
 	}
 
 	public Hospital(String hospitalCode, int mediStaff, String hospitalName, int bedNo, String hospitalAddr,
-			int patient_curr, String userId) {
+			int patientCurr, String userId) {
 		this.hospitalCode = hospitalCode;
 		this.mediStaff = mediStaff;
 		this.hospitalName = hospitalName;
 		this.bedNo = bedNo;
 		this.hospitalAddr = hospitalAddr;
-		this.patient_curr = patient_curr;
+		this.patientCurr = patientCurr;
 		this.userId = userId;
 	}
 
@@ -67,12 +67,12 @@ public class Hospital {
 		this.hospitalAddr = hospitalAddr;
 	}
 
-	public int getPatient_curr() {
-		return patient_curr;
+	public int getPatientCurr() {
+		return patientCurr;
 	}
 
-	public void setPatient_curr(int patient_curr) {
-		this.patient_curr = patient_curr;
+	public void setPatientCurr(int patientCurr) {
+		this.patientCurr = patientCurr;
 	}
 
 	public String getUserId() {
@@ -89,6 +89,13 @@ public class Hospital {
 
 	public void setList(List<Patient> list) {
 		this.list = list;
+	}
+
+	@Override
+	public String toString() {
+
+		return "[병원이름]:"+hospitalName+" | "+"[현재 의료진 수]:"+mediStaff+" | "+"[잔여 병상수]:"+bedNo+" | "+"[현재 수용환자수]:"
+		+patientCurr;
 	}
 	
 
