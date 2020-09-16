@@ -69,6 +69,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 		String sql = "select district,place_type, patient_no,visit_date from route join place using(place_code)"
 				+ "where district like ?";
 		try {
+			
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1, addr);
@@ -110,12 +111,12 @@ public class ClientsDAOImpl implements ClientsDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from seoul where district = ?";
+		String sql = "select * from seoul where district like ?";
 		Seoul seoul = null;
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setString(1, addr);
+			ps.setString(1, "%"+addr+"%");
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				seoul = new Seoul(rs.getString(1), rs.getInt(2), rs.getString(3));
