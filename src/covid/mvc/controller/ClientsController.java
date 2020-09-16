@@ -15,7 +15,6 @@ import covid.mvc.view.SuccessView;
 
 public class ClientsController {
 	private static ClientsService service = new ClientsService();
-	private static ClientsDAOImpl dao = new ClientsDAOImpl();
 
 	public static void login(String userId, String userPwd) {
 		try {
@@ -51,7 +50,6 @@ public class ClientsController {
 	
 	public static void selectRouteByAddr(String addr) {
 		try {
-			System.out.println("controller  "+addr);
 			List<Route> list = service.selectRouteByAddr(addr);
 			SuccessView.printRoute(list);
 		}catch(Exception e) {

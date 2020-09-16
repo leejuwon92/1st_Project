@@ -71,11 +71,10 @@ public class ClientsDAOImpl implements ClientsDAO {
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setString(1, "'%"+addr+"%'");
+			ps.setString(1, addr);
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				Route route = new Route(rs.getString(1), rs.getString(2), null, rs.getInt(4),rs.getString(5));
-				System.out.println(rs.getNString(1)+rs.getString(2)+ null+ rs.getInt(4)+rs.getString(5));
+				Route route = new Route(rs.getString(1), rs.getString(2), null, rs.getInt(3),rs.getString(4));
 				list.add(route);
 			}
 		} finally {
