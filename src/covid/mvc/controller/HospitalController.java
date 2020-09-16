@@ -1,6 +1,9 @@
   
 package covid.mvc.controller;
 
+import java.sql.SQLException;
+
+import covid.mvc.dto.Hospital;
 import covid.mvc.service.HospitalService;
 import covid.mvc.view.FailView;
 import covid.mvc.view.SuccessView;
@@ -43,6 +46,16 @@ public class HospitalController {
 			service.updateMediStaff(userId, mediStaff);
 		}catch(Exception e) {
 //			e.printStackTrace();
+			FailView.errorMessage(e.getMessage());
+		}
+	}
+
+	public static void insertHospital(Hospital hospital) {
+		try {
+			SuccessView.messagePrint("병원회원이 생성되었습니다.");
+			service.insertHospital(hospital);
+		} catch (SQLException e) {
+			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
