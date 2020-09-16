@@ -24,6 +24,7 @@ public class HospitalService {
 	}
 	
 	public void updatePatient(int patientNo) throws SQLException {
+		
 		int result = hospitalDAO.updatePatient(patientNo);
 		if(result == 0) throw new SQLException(patientNo + " 번 환자가 존재하지 않습니다.");
 	}

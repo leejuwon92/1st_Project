@@ -54,7 +54,7 @@ public class MenuView {
 			System.out.println(ss.getSet());
 			System.out.println("====================================================");
 			System.out.println("-----" + session.getSessionId() + "님 반갑습니다^^------");
-			System.out.println(session.getSeoul());
+//			System.out.println(session.getSeoul());
 			System.out.println("==============*오늘도 건강한 하루되세요*============");
 			System.out.println("====================================================");
 			System.out.println("------------원하는 메뉴 번호를 눌러 주세요----------");
@@ -84,11 +84,12 @@ public class MenuView {
 				case 2:
 					System.out.println("조회하실 구를 입력하세요.");
 					String addr = sc.nextLine();
+					System.out.println(addr);
 					ClientsController.selectRouteByAddr(addr);
 					break;
 
 				}
-
+				break;
 			case 3:
 				ClientsController.selectByAll();
 				break;
@@ -165,9 +166,11 @@ public class MenuView {
 			switch (menu) {
 			case 1:
 				HospitalController.selectHospital(session.getSessionId());
+				break;
 
 			case 2:
 				HospitalController.selectByPatient(session.getSessionId());
+				break;
 
 			case 3:
 				HospitalController.selectByPatient(session.getSessionId());
@@ -175,12 +178,14 @@ public class MenuView {
 				System.out.print("▶▶");
 				int patientNo = Integer.parseInt(sc.nextLine());
 				HospitalController.updatePatient(patientNo);
+				break;
 
 			case 4:
 				System.out.println("변경할 의료진 수를 입력하세요");
 				System.out.print("▶▶");
 				int mediStaff = Integer.parseInt(sc.nextLine());
 				HospitalController.updateMediStaff(session.getSessionId(), mediStaff);
+				break;
 
 			case 5:
 				logout(session.getSessionId(), session.getSessionAddr(), session.getSessionType());
@@ -196,6 +201,7 @@ public class MenuView {
 	 * 확진자가 병원 선택하기
 	 */
 	public static void selectHospitalByName(Session session) {
+		
 		System.out.println("병원을 선택하세요");
 		System.out.print("▶▶");
 		String hospital = sc.nextLine();
@@ -238,14 +244,23 @@ public class MenuView {
 		String userPwd = sc.nextLine();
 
 		System.out.print("구분(|| 일반인:1 || 병원:2 ||) : ");
-		int userType = sc.nextInt();
+		int userType = Integer.parseInt(sc.nextLine());
+		if(userType < 3 && userType > 0) {
+			if(userType == 2) {
+				userType = 3;
+			} 
+		} else {
+			System.out.println("번호 입력 오류입니다.");
+			return;
+		}
 		
 		System.out.print("주소 : ");
 		String userAddr = sc.nextLine();
 
 		Clients client = new Clients(userId, userPwd, userType, userAddr);
+		System.out.println(client.getUserAddr());
 		ClientsController.insertClients(client);
-		if (userType == 2) {
+		if (userType == 3) {
 			insertHospital(userAddr, userId);
 		}
 
@@ -260,16 +275,16 @@ public class MenuView {
 		String hospitalCode = sc.nextLine();
 
 		System.out.print("의료진 수 : ");
-		int mediStaff = sc.nextInt();
+		int mediStaff = Integer.parseInt(sc.nextLine());
 
 		System.out.print("병원 이름 : ");
 		String hospitalName = sc.nextLine();
 
 		System.out.print("병상 수 : ");
-		int bedNo = sc.nextInt();
+		int bedNo = Integer.parseInt(sc.nextLine());
 
 		System.out.print("현재 환자 수 : ");
-		int patientCurr = sc.nextInt();
+		int patientCurr = Integer.parseInt(sc.nextLine());
 
 		Hospital hospital = new Hospital(hospitalCode, mediStaff, hospitalName, bedNo, addr, patientCurr, userId);
 		HospitalController.insertHospital(hospital);

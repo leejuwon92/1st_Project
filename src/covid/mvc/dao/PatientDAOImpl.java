@@ -20,7 +20,7 @@ public class PatientDAOImpl implements PatientDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "";
+		String sql = "select *from Hospital where hospital_addr = ?";
 		List<Hospital> list = new ArrayList<Hospital>();
 		try {
 			con = DbUtil.getConnection();
@@ -43,7 +43,7 @@ public class PatientDAOImpl implements PatientDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "";
+		String sql = "select * from Hospital";
 		List<Hospital> list = new ArrayList<Hospital>();
 		try {
 			con = DbUtil.getConnection();
@@ -63,12 +63,15 @@ public class PatientDAOImpl implements PatientDAO {
 	@Override
 	public int insertPatient(Connection con, Patient patient) throws SQLException {
 		PreparedStatement ps = null;
-		String sql = "";
+		String sql = "insert into patient values(patient_no.nextval, sysdate, 1, ?, ?";
 		int result=0;
 		try {
 			con = DbUtil.getConnection();
 			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql);
+			ps.setString(1, patient.getUserId());
+			ps.setNString(2, patient.getHospitalCode());
+			
 			result = ps.executeUpdate();
 			if(result == 0) {
 				con.rollback();
@@ -84,12 +87,16 @@ public class PatientDAOImpl implements PatientDAO {
 	public int insertRoute(Route route) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String sql = "";
+		String sql = "insert into route values(?,?, (select patient_no from patient where clients_id = ? ),?)";
 		int result=0;
 		try {
 			con = DbUtil.getConnection();
 			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql);
+			ps.setString(1, route.getDistrict());
+			ps.setString(2,route.getPlaceCode());
+			ps.setString(3,route.getUserId());
+			ps.setString(4,route.getVisitDate());
 			result = ps.executeUpdate();
 			if(result == 0) {
 				con.rollback();
@@ -106,12 +113,13 @@ public class PatientDAOImpl implements PatientDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "";
+		String sql = "select * from Hospital where Hospital_name =?  and cliend_id = ?";
 		Hospital hospital = null;
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1, hospitalName);
+			ps.setString(2, sessionId);
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				hospital = new Hospital(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getInt(4),
@@ -133,7 +141,8 @@ public class PatientDAOImpl implements PatientDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "";
+		String sql = "select*from place";
+
 		List<Place> list = new ArrayList<Place>();
 		try {
 			con = DbUtil.getConnection();
