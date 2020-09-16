@@ -8,7 +8,7 @@ public class Route {
     private String visitDate;//방문날짜
     
     public Route() {}
-
+    
 	public Route(String district, String placeCode, String userId, int patientNo,String visitDate) {
 		super();
 		this.district = district;
