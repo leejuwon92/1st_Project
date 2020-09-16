@@ -238,7 +238,7 @@ public class MenuView {
 		String userPwd = sc.nextLine();
 
 		System.out.print("구분(|| 일반인:1 || 병원:2 ||) : ");
-		int userType = sc.nextInt();
+		int userType = Integer.parseInt(sc.nextLine());
 		if(userType < 3 && userType > 0) {
 			if(userType == 2) {
 				userType = 3;
