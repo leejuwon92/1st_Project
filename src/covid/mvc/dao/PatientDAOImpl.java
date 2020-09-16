@@ -33,6 +33,7 @@ public class PatientDAOImpl implements PatientDAO {
 				list.add(hospital);
 			}
 		} finally {
+			
 			DbUtil.close(con, ps, rs);
 		}
 		return list;

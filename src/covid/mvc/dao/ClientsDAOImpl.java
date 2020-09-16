@@ -69,6 +69,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 		String sql = "select district,place_type, patient_no,visit_date from route join place using(place_code)"
 				+ "where district like ?";
 		try {
+			
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1, addr);
