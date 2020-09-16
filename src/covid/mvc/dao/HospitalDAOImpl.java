@@ -116,7 +116,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 			ps.setString(3, hospital.getHospitalName());
 			ps.setInt(4, hospital.getBedNo());
 			ps.setString(5, hospital.getHospitalAddr());
-			ps.setInt(6, hospital.getPatient_curr());
+			ps.setInt(6, hospital.getPatientCurr());
 			ps.setString(7, hospital.getUserId());
 			result = ps.executeUpdate();
 			if(result == 0) {

@@ -38,4 +38,11 @@ public class Drug {
 		this.maskNum = maskNum;
 	}
 
+	@Override
+	public String toString() {
+		
+		return "[약국명]:"+dName+" | "+"[약국주소]:"+" | "+dAddr+" | "+"[마스크수량]:"+maskNum;
+	}
+
+	
 }
