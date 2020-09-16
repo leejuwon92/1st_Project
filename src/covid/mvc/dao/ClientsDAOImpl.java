@@ -141,7 +141,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 			con = DbUtil.getConnection();
 			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql1);
-			ps.setString(1, clients.getUserAddr());
+			ps.setString(1, clients.getUserId());
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				throw new SQLException("아이디가 이미 존재합니다. 다른 아이디로 회원가입 해주세요.");
