@@ -1,5 +1,6 @@
 package covid.mvc.dao;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -28,6 +29,11 @@ public interface HospitalDAO {
 	 * 완치 여부 변경
 	 */
 	public int updatePatient(int patientNo)throws SQLException;
+	
+	/**
+	 * 완치 환자 일반인환자타입으로 변경
+	 * */
+	public int updatePatientToClients (Connection con,int patientNo)throws SQLException;
 	
 	/**
 	 * 의료진 숫자 변경

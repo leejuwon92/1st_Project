@@ -23,7 +23,7 @@ public interface PatientDAO {
 	/**
 	 * 환자 집어넣기
 	 */
-	public int insertPatient(Connection con, Patient patient) throws SQLException;
+	public int insertPatient(Connection con,Patient patient) throws SQLException;
 	
 	/**
 	 * 확진자 동선 입력

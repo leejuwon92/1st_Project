@@ -14,20 +14,12 @@ public class PatientController {
 
 	public static void selectHospitalByAddr(String addr) {
 		try {
-			List<Hospital> list = service.selectHospitalByAddr(addr);
-			SuccessView.printHospital(list);
+			SuccessView.printHospital(service.selectHospitalByAddr(addr));
 			
 		}catch(Exception e){
 			FailView.errorMessage(e.getMessage());
-			List<Hospital> list;
-			try {
-				list = service.selectHospitalAll();
-				SuccessView.printHospital(list);
-
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
 		}
+			
 	}
 
 	public static void selectHospitalByName(String hospital, String sessionId) {

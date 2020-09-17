@@ -84,7 +84,7 @@ select * from drug; --데이터 삽입 완료.
 select * from route;
 select * from place; 
 select * from seoul; 
-select * from clients;  
+select * from clients; 
 select * from hospital;  
 select * from patient;
 

@@ -54,7 +54,7 @@ public class MenuView {
 			System.out.println(ss.getSet());
 			System.out.println("====================================================");
 			System.out.println("-----" + session.getSessionId() + "님 반갑습니다^^------");
-//			System.out.println(session.getSeoul());
+			System.out.println(session.getSeoul());
 			System.out.println("==============*오늘도 건강한 하루되세요*============");
 			System.out.println("====================================================");
 			System.out.println("------------원하는 메뉴 번호를 눌러 주세요----------");
@@ -127,7 +127,7 @@ public class MenuView {
 				System.out.print("▶▶");
 				String district = sc.nextLine();
 				System.out.println("방문하신 장소의 코드를 참조하여 입력하세요");
-				// 장소코드 보여줄 메소드추가
+				PatientController.selectPlaceAll();
 				System.out.print("▶▶");
 				String placeCode = sc.nextLine();
 				System.out.println("장소를 방문하신 날짜를 입력하여 주세요(예:2020-08-13)");
@@ -202,7 +202,7 @@ public class MenuView {
 	 * 확진자가 병원 선택하기
 	 */
 	public static void selectHospitalByName(Session session) {
-		
+		PatientController.selectHospitalAll();
 		System.out.println("병원을 선택하세요");
 		System.out.print("▶▶");
 		String hospital = sc.nextLine();
