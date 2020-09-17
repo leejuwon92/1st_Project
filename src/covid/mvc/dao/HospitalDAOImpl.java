@@ -72,12 +72,39 @@ public class HospitalDAOImpl implements HospitalDAO {
 			if(result == 0) {
 				con.rollback();
 				throw new SQLException("수정 실패");
-			}
+			}else updatePatientToClients(con, patientNo);
 		} finally {
+			con.commit();
 			DbUtil.close(con, ps, null);
 		}
 		return result;
 	}
+	
+	@Override
+	public int updatePatientToClients(Connection con,int patientNo) throws SQLException {
+		PreparedStatement ps=null;
+		String  sql="update clients set clients_type=1 where clients_type=(select clients_id from patient where patient_no=?";
+		int result=0;
+		try {
+			con.setAutoCommit(false);
+			ps=con.prepareStatement(sql);
+			ps.setInt(1, patientNo);
+			result=ps.executeUpdate();
+			if(result == 0) {
+				con.rollback();
+				throw new SQLException("수정 실패");
+			}
+			
+		}finally {
+			con.commit();
+			DbUtil.close(null, ps, null);
+		}
+		return result;
+	}
+
+	
+	
+	
 
 	@Override
 	public int updateMediStaff(String userId, int mediStaff) throws SQLException {
@@ -131,4 +158,5 @@ public class HospitalDAOImpl implements HospitalDAO {
 		return result;
 	}
 
+	
 }

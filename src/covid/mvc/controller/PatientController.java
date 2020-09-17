@@ -21,12 +21,11 @@ public class PatientController {
 				SuccessView.printHospital(service.selectHospitalAll());
 				
 			}
-				
-			
 			
 		}catch(Exception e){
 			FailView.errorMessage(e.getMessage());
 		}
+			
 	}
 
 	public static void selectHospitalByName(String hospital, String sessionId) {

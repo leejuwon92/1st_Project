@@ -130,7 +130,6 @@ public class MenuView {
 				System.out.println("방문하신 장소의 코드를 참조하여 입력하세요");
 
 				PatientController.selectPlaceAll();
-
 				System.out.print("▶▶");
 				String placeCode = sc.nextLine();
 				System.out.println("장소를 방문하신 날짜를 입력하여 주세요(예:2020-08-13)");
@@ -204,7 +203,6 @@ public class MenuView {
 	 * 확진자가 병원 선택하기
 	 */
 	public static void selectHospitalByName(Session session) {
-
 		System.out.println("병원을 선택하세요");
 		System.out.print("▶▶");
 		String hospital = sc.nextLine();

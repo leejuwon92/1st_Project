@@ -20,12 +20,12 @@ public class PatientDAOImpl implements PatientDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select *from Hospital where hospital_addr = ?";
+		String sql = "select *from Hospital where hospital_addr like ?";
 		List<Hospital> list = new ArrayList<Hospital>();
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setString(1, userAddr);
+			ps.setString(1, "'%"+userAddr+"%'");
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				Hospital hospital = new Hospital(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getInt(4),
