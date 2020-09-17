@@ -62,29 +62,6 @@ public class PatientDAOImpl implements PatientDAO {
 	}
 
 	@Override
-	public int insertPatient(Connection con, Patient patient) throws SQLException {
-		PreparedStatement ps = null;
-		String sql = "insert into patient values(patient_no.nextval, sysdate, 1, ?, ?)";
-		int result=0;
-		try {
-			con.setAutoCommit(false);
-			ps = con.prepareStatement(sql);
-			ps.setString(1, patient.getUserId());
-			ps.setString(2, patient.getHospitalCode());
-			
-			result = ps.executeUpdate();
-			if(result == 0) {
-				con.rollback();
-				throw new SQLException("등록 실패");
-			}
-		} finally {
-			con.commit();
-			DbUtil.close(null, ps, null);
-		}
-		return result;
-	}
-
-	@Override
 	public int insertRoute(Route route) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -118,6 +95,7 @@ public class PatientDAOImpl implements PatientDAO {
 		Hospital hospital = null;
 		try {
 			con = DbUtil.getConnection();
+			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql);
 			ps.setString(1, hospitalName);
 			rs = ps.executeQuery();
@@ -125,12 +103,15 @@ public class PatientDAOImpl implements PatientDAO {
 				hospital = new Hospital(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getInt(4),
 						rs.getString(5), rs.getInt(6), rs.getString(7));
 				if(hospital != null) {
-					Patient patient = new Patient(0, null, 1, sessionId, hospital.getHospitalCode());
-					insertPatient(con, patient);
+					int result = updateHospitalCode(con, sessionId, hospital.getHospitalAddr());
+					if(result == 0) {
+						con.rollback();
+					}
 				}
 			}
 			
 		} finally {
+			con.commit();
 			DbUtil.close(con, ps, rs);
 		}
 		return hospital;
@@ -156,5 +137,27 @@ public class PatientDAOImpl implements PatientDAO {
 			DbUtil.close(con, ps, rs);
 		}
 		return list;
+	}
+	
+	@Override
+	public int updateHospitalCode(Connection con, String userId, String hospitalAddr) throws SQLException {
+		PreparedStatement ps = null;
+		String sql = "update patient set hospital_code = (select hospital_code from hospital where hospital_addr = ?)" + 
+				"where clients_id = ?";
+		int result = 0;
+		try {
+			con.setAutoCommit(false);
+			ps = con.prepareStatement(sql);
+			ps.setString(1, hospitalAddr);
+			ps.setString(2, userId);
+			result = ps.executeUpdate();
+			if(result == 0) {
+				con.rollback();
+			}
+		} finally {
+			con.commit();
+			DbUtil.close(null, ps, null);
+		}
+		return result;
 	}
 }

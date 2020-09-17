@@ -7,6 +7,7 @@ import covid.mvc.dao.ClientsDAO;
 import covid.mvc.dao.ClientsDAOImpl;
 import covid.mvc.dto.Clients;
 import covid.mvc.dto.Drug;
+import covid.mvc.dto.Patient;
 import covid.mvc.dto.Route;
 import covid.mvc.dto.Seoul;
 
@@ -47,16 +48,6 @@ public class ClientsService {
 	}
 	
 	public void insertClients(Clients clients) throws SQLException{
-		int userType = clients.getUserType();
-		if(userType < 3 && userType > 0) {
-			if(userType == 2) {
-				userType = 3;
-			} 
-		} else {
-			System.out.println("번호 입력 오류입니다.");
-			return;
-		}
-		
 		int result = clientsDAO.insertClients(clients);
 		if(result == 0) {
 			throw new SQLException("회원가입 실패");

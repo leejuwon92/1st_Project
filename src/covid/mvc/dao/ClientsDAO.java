@@ -1,10 +1,12 @@
 package covid.mvc.dao;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
 import covid.mvc.dto.Clients;
 import covid.mvc.dto.Drug;
+import covid.mvc.dto.Patient;
 import covid.mvc.dto.Route;
 import covid.mvc.dto.Seoul;
 
@@ -40,4 +42,8 @@ public interface ClientsDAO {
 	 */
 	public int insertClients(Clients clients) throws SQLException;
 	
+	/**
+	 * 환자 집어넣기
+	 */
+	public int insertPatient(Connection con, Patient patient) throws SQLException;
 }	

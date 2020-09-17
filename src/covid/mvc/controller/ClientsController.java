@@ -2,8 +2,8 @@ package covid.mvc.controller;
 
 import java.util.List;
 
-import covid.mvc.dao.ClientsDAOImpl;
 import covid.mvc.dto.Clients;
+import covid.mvc.dto.Patient;
 import covid.mvc.dto.Route;
 import covid.mvc.dto.Seoul;
 import covid.mvc.service.ClientsService;
@@ -78,5 +78,4 @@ public class ClientsController {
 			FailView.errorMessage(e.getMessage());
 		}
 	}
-
 }
