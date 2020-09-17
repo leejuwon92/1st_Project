@@ -15,18 +15,17 @@ public class PatientController {
 	public static void selectHospitalByAddr(String addr) {
 		try {
 			List<Hospital> list = service.selectHospitalByAddr(addr);
-			SuccessView.printHospital(list);
+			if(list.size() > 0) {
+				SuccessView.printHospital(list);
+			} else if(list.size() == 0) {
+				SuccessView.printHospital(service.selectHospitalAll());
+				
+			}
+				
+			
 			
 		}catch(Exception e){
 			FailView.errorMessage(e.getMessage());
-			List<Hospital> list;
-			try {
-				list = service.selectHospitalAll();
-				SuccessView.printHospital(list);
-
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
 		}
 	}
 
