@@ -127,6 +127,7 @@ public class MenuView {
 				System.out.print("▶▶");
 				String district = sc.nextLine();
 				System.out.println("방문하신 장소의 코드를 참조하여 입력하세요");
+
 				PatientController.selectPlaceAll();
 				System.out.print("▶▶");
 				String placeCode = sc.nextLine();
@@ -192,17 +193,15 @@ public class MenuView {
 				return;
 			// break;
 
-				
 			}
 		}
-   
+
 	}
 
 	/**
 	 * 확진자가 병원 선택하기
 	 */
 	public static void selectHospitalByName(Session session) {
-		PatientController.selectHospitalAll();
 		System.out.println("병원을 선택하세요");
 		System.out.print("▶▶");
 		String hospital = sc.nextLine();
@@ -236,35 +235,54 @@ public class MenuView {
 	 * 회원가입하기
 	 */
 	private static void insertClients() {
+		while (true) {
+			System.out.println();
+			System.out.print("아이디 : ");
+			String userId = sc.nextLine();
 
-		System.out.println();
-		System.out.print("아이디 : ");
-		String userId = sc.nextLine();
+			System.out.print("비번 : ");
+			String userPwd = sc.nextLine();
 
-		System.out.print("비번 : ");
-		String userPwd = sc.nextLine();
+			System.out.print("구분(|| 일반인:1 || 병원:2 ||) : ");
+			int userType = Integer.parseInt(sc.nextLine());
+			if (userType < 3 && userType > 0) {
+				if (userType == 2) {
+					userType = 3;
+				}
 
-		System.out.print("구분(|| 일반인:1 || 병원:2 ||) : ");
-		int userType = Integer.parseInt(sc.nextLine());
-		if(userType < 3 && userType > 0) {
-			if(userType == 2) {
-				userType = 3;
-			} 
-		} else {
-			System.out.println("번호 입력 오류입니다.");
-			return;
+				System.out.print("주소 : ");
+				String userAddr = sc.nextLine();
+				
+				System.out.println("ID : "+userId);
+				System.out.println("Password : "+userPwd);
+				System.out.println("Address : "+ userAddr);
+				if(userType == 1) System.out.println("userType : 일반인");
+				else if(userType == 3) System.out.println("userType : 병원");
+				while(true) {
+					System.out.println("입력하신 정보가 맞습니까?");
+					System.out.println("   Y 회원가입    /   N 회원가입 나가기  ");
+					System.out.print(" >> ");
+					String confirm = sc.nextLine();
+					if(confirm.equals("y")) {
+						Clients client = new Clients(userId, userPwd, userType, userAddr);
+						System.out.println(client.getUserAddr());
+						ClientsController.insertClients(client);
+						if (userType == 3) {
+							insertHospital(userAddr, userId);
+							return;
+						}
+					} else if (confirm.equals("n")){
+						return;
+					} else {
+						System.out.println("Y 혹은 N으로만 입력해주세요");
+					}
+					
+				
+				}
+			} else {
+				System.out.println("번호 입력 오류입니다.");
+			}
 		}
-		
-		System.out.print("주소 : ");
-		String userAddr = sc.nextLine();
-
-		Clients client = new Clients(userId, userPwd, userType, userAddr);
-		System.out.println(client.getUserAddr());
-		ClientsController.insertClients(client);
-		if (userType == 3) {
-			insertHospital(userAddr, userId);
-		}
-
 	}
 
 	/**

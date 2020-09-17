@@ -14,7 +14,13 @@ public class PatientController {
 
 	public static void selectHospitalByAddr(String addr) {
 		try {
-			SuccessView.printHospital(service.selectHospitalByAddr(addr));
+			List<Hospital> list = service.selectHospitalByAddr(addr);
+			if(list.size() > 0) {
+				SuccessView.printHospital(list);
+			} else if(list.size() == 0) {
+				SuccessView.printHospital(service.selectHospitalAll());
+				
+			}
 			
 		}catch(Exception e){
 			FailView.errorMessage(e.getMessage());

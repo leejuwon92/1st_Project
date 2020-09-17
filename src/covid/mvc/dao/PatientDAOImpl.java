@@ -50,7 +50,7 @@ public class PatientDAOImpl implements PatientDAO {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
-			if(rs.next()) {
+			while(rs.next()) {
 				Hospital hospital = new Hospital(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getInt(4),
 						rs.getString(5), rs.getInt(6), rs.getString(7));
 				list.add(hospital);
@@ -67,11 +67,10 @@ public class PatientDAOImpl implements PatientDAO {
 		String sql = "insert into patient values(patient_no.nextval, sysdate, 1, ?, ?)";
 		int result=0;
 		try {
-
 			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql);
 			ps.setString(1, patient.getUserId());
-			ps.setNString(2, patient.getHospitalCode());
+			ps.setString(2, patient.getHospitalCode());
 			
 			result = ps.executeUpdate();
 			if(result == 0) {
@@ -142,7 +141,7 @@ public class PatientDAOImpl implements PatientDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select*from place";
+		String sql = "select * from place";
 
 		List<Place> list = new ArrayList<Place>();
 		try {
