@@ -17,7 +17,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select*from hospital where clients_id=?";
+		String sql = "select hospital_code, medi_staff, hospital_name, ((medi_staff * 2) - patient_curr), patient_curr,clients_id from hospital where clients_id = ?";
 		Hospital hospital = null;
 		try {
 			con = DbUtil.getConnection();
@@ -26,7 +26,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				hospital = new Hospital(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getInt(4),
-						rs.getString(5), rs.getInt(6), rs.getString(7));
+						null, rs.getInt(5), rs.getString(6));
 			}
 		} finally {
 			DbUtil.close(con, ps, rs);
