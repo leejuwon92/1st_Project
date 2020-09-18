@@ -31,6 +31,8 @@ public class ClientsDAOImpl implements ClientsDAO {
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				clients = new Clients(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4));
+				
+				
 			}
 		} finally {
 			DbUtil.close(con, ps, rs);
