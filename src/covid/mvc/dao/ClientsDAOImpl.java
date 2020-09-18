@@ -31,6 +31,8 @@ public class ClientsDAOImpl implements ClientsDAO {
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				clients = new Clients(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4));
+				
+				
 			}
 		} finally {
 			DbUtil.close(con, ps, rs);
@@ -44,7 +46,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Drug> list = new ArrayList<Drug>();
-		String sql = "select * from drug where d_addr =?";
+		String sql = "select * from drug where d_addr =? order by d_name";
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -90,7 +92,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Seoul> list = new ArrayList<Seoul>();
-		String sql = "select * from seoul";
+		String sql = "select * from seoul order by district";
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
