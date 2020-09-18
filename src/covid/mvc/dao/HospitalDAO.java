@@ -36,6 +36,11 @@ public interface HospitalDAO {
 	public int updatePatientToClients (Connection con,int patientNo)throws SQLException;
 	
 	/**
+	 * 환자 완치시 병원테이블 환자 현재수 변경
+	 * */
+	public int updateHospitalPatientCurr(Connection con,int patientNo)throws SQLException;
+	
+	/**
 	 * 의료진 숫자 변경
 	 */
 	public int updateMediStaff(String userId, int mediStaff)throws SQLException;
