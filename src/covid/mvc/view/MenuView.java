@@ -285,22 +285,9 @@ public class MenuView {
 				System.out.println("번호 입력 오류입니다.");
 			}
 		}
-		
-		System.out.print("주소 : ");
-		String userAddr = sc.nextLine();
-
-		Clients client = new Clients(userId, userPwd, userType, userAddr);
-		System.out.println(client.getUserAddr());
-		System.out.println(client.getUserId());
-		System.out.println(client.getUserType());
-		System.out.println(client.getUserPwd());
-		System.out.println(client);
-		ClientsController.insertClients(client);
-		if (userType == 3) {
-			insertHospital(userAddr, userId);
-		}
-
 	}
+
+	
 
 	/**
 	 * 병원회원가입
