@@ -19,7 +19,6 @@ public class PatientController {
 				SuccessView.printHospital(list);
 			} else if(list.size() == 0) {
 				SuccessView.printHospital(service.selectHospitalAll());
-				
 			}
 			
 		}catch(Exception e){

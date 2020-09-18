@@ -52,7 +52,7 @@ public class MenuView {
 	public static void printClientsMenu(Session session) {
 		while (true) {
 			SessionSet ss = SessionSet.getInstance();
-			System.out.println(ss.getSet());
+//			System.out.println(ss.getSet());
 			System.out.println("====================================================");
 			System.out.println("-----" + session.getSessionId() + "님 반갑습니다^^------");
 			System.out.println(session.getSeoul());
@@ -106,7 +106,7 @@ public class MenuView {
 	public static void printPatientMenu(Session session) {
 		while (true) {
 			SessionSet ss = SessionSet.getInstance();
-			System.out.println(ss.getSet());
+//			System.out.println(ss.getSet());
 			System.out.println("==============================================================");
 			System.out.println("----" + session.getSessionId() + "님의 완치를 간절히 기원합니다---");
 			System.out.println("==============================================================");
@@ -150,7 +150,7 @@ public class MenuView {
 	public static void printHospitalMenu(Session session) {
 		while (true) {
 			SessionSet ss = SessionSet.getInstance();
-			System.out.println(ss.getSet());
+//			System.out.println(ss.getSet());
 			System.out.println("==============================================================");
 			System.out.println("-------" + session.getSessionId() + "님 오늘도 감사합니다^^-------");
 			// 병원이름 보여주기
@@ -272,8 +272,8 @@ public class MenuView {
 						
 						if (userType == 3) {
 							insertHospital(userAddr, userId);
-							return;
 						}
+						return;
 					} else if (confirm.equals("n")) {
 						return;
 					} else {
