@@ -168,7 +168,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 			}
 		} finally {
 			con.commit();
-			DbUtil.close(con, ps, null);
+			DbUtil.close(con, ps, rs);
 		}
 		return result;
 	}
