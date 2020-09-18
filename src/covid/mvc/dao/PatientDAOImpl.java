@@ -20,7 +20,7 @@ public class PatientDAOImpl implements PatientDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select *from Hospital where hospital_addr like ?";
+		String sql = "select hospital_name, hospital_addr,(medi_staff*2)-patient_curr as ÀÜ¿©º´»ó¼ö from hospital where hospital_addr like ?";
 		List<Hospital> list = new ArrayList<Hospital>();
 		try {
 			con = DbUtil.getConnection();
@@ -28,8 +28,8 @@ public class PatientDAOImpl implements PatientDAO {
 			ps.setString(1, "'%"+userAddr+"%'");
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				Hospital hospital = new Hospital(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getInt(4),
-						rs.getString(5), rs.getInt(6), rs.getString(7));
+				Hospital hospital = new Hospital(null, 0, rs.getString(1), rs.getInt(3),
+						rs.getString(2), 0, null);
 				list.add(hospital);
 			}
 		} finally {
@@ -44,15 +44,15 @@ public class PatientDAOImpl implements PatientDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from Hospital";
+		String sql = "select hospital_name, hospital_addr,(medi_staff*2)-patient_curr as ÀÜ¿©º´»ó¼ö from hospital;";
 		List<Hospital> list = new ArrayList<Hospital>();
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				Hospital hospital = new Hospital(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getInt(4),
-						rs.getString(5), rs.getInt(6), rs.getString(7));
+				Hospital hospital = new Hospital(null, 0, rs.getString(1), rs.getInt(3),
+						rs.getString(2), 0, null);
 				list.add(hospital);
 			}
 		} finally {
@@ -103,10 +103,12 @@ public class PatientDAOImpl implements PatientDAO {
 				hospital = new Hospital(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getInt(4),
 						rs.getString(5), rs.getInt(6), rs.getString(7));
 				if(hospital != null) {
-					int result = updateHospitalCode(con, sessionId, hospital.getHospitalAddr());
-					if(result == 0) {
+					int result1 = updateHospitalCode(con, sessionId, hospital.getHospitalCode());
+					int result2= updatePatientCurr(con,hospital.getHospitalCode());
+					if(result1 == 0 || result2==0) {
 						con.rollback();
 					}
+					
 				}
 			}
 			
@@ -140,15 +142,14 @@ public class PatientDAOImpl implements PatientDAO {
 	}
 	
 	@Override
-	public int updateHospitalCode(Connection con, String userId, String hospitalAddr) throws SQLException {
+	public int updateHospitalCode(Connection con, String userId, String hospitalCode) throws SQLException {
 		PreparedStatement ps = null;
-		String sql = "update patient set hospital_code = (select hospital_code from hospital where hospital_addr = ?)" + 
-				"where clients_id = ?";
+		String sql = "update patient set hospital_code = ? where clients_id = ?";
 		int result = 0;
 		try {
 			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql);
-			ps.setString(1, hospitalAddr);
+			ps.setString(1, hospitalCode);
 			ps.setString(2, userId);
 			result = ps.executeUpdate();
 			if(result == 0) {
@@ -160,4 +161,25 @@ public class PatientDAOImpl implements PatientDAO {
 		}
 		return result;
 	}
+
+	@Override
+	public int updatePatientCurr(Connection con, String hospitalCode) throws SQLException {
+		PreparedStatement ps=null;
+		String sql="update hospital set hospital_curr=hospital_curr+1 where hospital_code=?";
+		int result=0;
+		try {
+			con.setAutoCommit(false);
+			ps=con.prepareStatement(sql);
+			ps.setString(1, hospitalCode);
+			result=ps.executeUpdate();
+			if(result == 0) {
+				con.rollback();
+			}
+		}finally {
+			con.commit();
+			DbUtil.close(null, ps, null);
+		}
+		return result;
+	}
+	
 }

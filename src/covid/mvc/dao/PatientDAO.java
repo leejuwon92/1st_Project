@@ -39,4 +39,9 @@ public interface PatientDAO {
 	 * 환자 병원 수정
 	 */
 	public int updateHospitalCode(Connection con, String userId, String hospitalAddr) throws SQLException;
+
+	/**
+	 * 환자가 병원선택시 병원테이블 환자숫자 증가
+	 * */
+	public int updatePatientCurr(Connection con,String hospitalCode)throws SQLException;
 }
