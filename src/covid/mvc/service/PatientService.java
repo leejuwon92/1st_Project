@@ -15,9 +15,9 @@ public class PatientService {
 	
 	public List<Hospital> selectHospitalByAddr(String addr) throws SQLException{
 		List<Hospital> list = patientDAO.selectHospitalByAddr(addr);
-		if(list == null) {
-			throw new SQLException("주소에 해당하는 병원을 찾을 수 없습니다.");
-		}
+//		if(list == null) {
+//			throw new SQLException("주소에 해당하는 병원을 찾을 수 없습니다.");
+//		}
 		return list;
 	}
 	

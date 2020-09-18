@@ -52,7 +52,7 @@ public class MenuView {
 	public static void printClientsMenu(Session session) {
 		while (true) {
 			SessionSet ss = SessionSet.getInstance();
-			System.out.println(ss.getSet());
+//			System.out.println(ss.getSet());
 			System.out.println("====================================================");
 			System.out.println("-----" + session.getSessionId() + "님 반갑습니다^^------");
 			System.out.println(session.getSeoul());
@@ -106,7 +106,7 @@ public class MenuView {
 	public static void printPatientMenu(Session session) {
 		while (true) {
 			SessionSet ss = SessionSet.getInstance();
-			System.out.println(ss.getSet());
+//			System.out.println(ss.getSet());
 			System.out.println("==============================================================");
 			System.out.println("----" + session.getSessionId() + "님의 완치를 간절히 기원합니다---");
 			System.out.println("==============================================================");
@@ -150,7 +150,7 @@ public class MenuView {
 	public static void printHospitalMenu(Session session) {
 		while (true) {
 			SessionSet ss = SessionSet.getInstance();
-			System.out.println(ss.getSet());
+//			System.out.println(ss.getSet());
 			System.out.println("==============================================================");
 			System.out.println("-------" + session.getSessionId() + "님 오늘도 감사합니다^^-------");
 			// 병원이름 보여주기
@@ -246,7 +246,7 @@ public class MenuView {
 
 			System.out.print("구분(|| 일반인:1 || 확찐자:2 || 병원:3 ||) : ");
 			int userType = Integer.parseInt(sc.nextLine());
-			if (userType < 3 && userType > 0) {
+			if (userType < 4 && userType > 0) {
 
 				System.out.print("주소 : ");
 				String userAddr = sc.nextLine();
@@ -272,8 +272,8 @@ public class MenuView {
 						
 						if (userType == 3) {
 							insertHospital(userAddr, userId);
-							return;
 						}
+						return;
 					} else if (confirm.equals("n")) {
 						return;
 					} else {
@@ -285,6 +285,7 @@ public class MenuView {
 				System.out.println("번호 입력 오류입니다.");
 			}
 		}
+
 	}
 
 	
@@ -303,13 +304,8 @@ public class MenuView {
 		System.out.print("병원 이름 : ");
 		String hospitalName = sc.nextLine();
 
-		System.out.print("병상 수 : ");
-		int bedNo = Integer.parseInt(sc.nextLine());
 
-		System.out.print("현재 환자 수 : ");
-		int patientCurr = Integer.parseInt(sc.nextLine());
-
-		Hospital hospital = new Hospital(hospitalCode, mediStaff, hospitalName, bedNo, addr, patientCurr, userId);
+		Hospital hospital = new Hospital(hospitalCode, mediStaff, hospitalName, 0, addr, 0, userId);
 		HospitalController.insertHospital(hospital);
 
 	}

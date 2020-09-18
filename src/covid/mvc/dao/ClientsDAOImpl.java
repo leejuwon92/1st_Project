@@ -31,6 +31,8 @@ public class ClientsDAOImpl implements ClientsDAO {
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				clients = new Clients(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4));
+				
+				
 			}
 		} finally {
 			DbUtil.close(con, ps, rs);
@@ -44,7 +46,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Drug> list = new ArrayList<Drug>();
-		String sql = "select * from drug where d_addr =?";
+		String sql = "select * from drug where d_addr =? order by d_name";
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -67,12 +69,12 @@ public class ClientsDAOImpl implements ClientsDAO {
 		ResultSet rs = null;
 		List<Route> list = new ArrayList<Route>();
 		String sql = "select district,place_type, patient_no,visit_date from route join place using(place_code)"
-				+ "where district like ?";
+				+ "where district like ? order by patient_no, visit_date";
 		try {
 			
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setString(1, addr);
+			ps.setString(1, "%"+addr+"%");
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				Route route = new Route(rs.getString(1), rs.getString(2), null, rs.getInt(3),rs.getString(4));
@@ -90,7 +92,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Seoul> list = new ArrayList<Seoul>();
-		String sql = "select * from seoul";
+		String sql = "select district, (select count(*) from patient), hazard from seoul";
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -111,12 +113,14 @@ public class ClientsDAOImpl implements ClientsDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from seoul where district like ?";
+		String sql = "select district,(select count(*) from patient join clients using(clients_id) where clients_addr like ?), hazard" + 
+				"from seoul where district like ?";
 		Seoul seoul = null;
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1, "%"+addr+"%");
+			ps.setString(2, "%"+addr+"%");
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				seoul = new Seoul(rs.getString(1), rs.getInt(2), rs.getString(3));

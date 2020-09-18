@@ -40,9 +40,15 @@ public class Seoul {
 
 	@Override
 	public String toString() {
-	
+		if(this.dis_patient < 20) {
+			setHazard("저");
+		} else if(dis_patient < 50) {
+			setHazard("중");
+		} else if(dis_patient < 100) {
+			setHazard("고");
+		}
 		
-		return "[확진자 발생구역]:"+district+" | "+"[확진자 수]:"+dis_patient+"[구역별 위험도]"+hazard;
+		return "[확진자 발생구역] :"+district+" | "+"[확진자 수] :"+dis_patient+"[구역별 위험도] :"+hazard;
 	}
 	
 

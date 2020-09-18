@@ -17,7 +17,8 @@ public class HospitalDAOImpl implements HospitalDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select*from hospital where clients_id=?";
+		String sql = "select hospital_code, medi_staff, hospital_name, ((medi_staff * 2) - patient_curr), "
+				+ "patient_curr,clients_id from hospital where clients_id = ?";
 		Hospital hospital = null;
 		try {
 			con = DbUtil.getConnection();
@@ -26,7 +27,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				hospital = new Hospital(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getInt(4),
-						rs.getString(5), rs.getInt(6), rs.getString(7));
+						null, rs.getInt(5), rs.getString(6));
 			}
 		} finally {
 			DbUtil.close(con, ps, rs);
@@ -40,7 +41,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "select patient_no, regdate from patient join hospital on patient.hospital_code=hospital.hospital_code "
-				+ "where hospital.clients_id=? and dis_state != 0";
+				+ "where hospital.clients_id=? and dis_state != 0 order by patient_no";
 		List<Patient> list = new ArrayList<Patient>();
 		try {
 			con = DbUtil.getConnection();
@@ -72,7 +73,12 @@ public class HospitalDAOImpl implements HospitalDAO {
 			if(result == 0) {
 				con.rollback();
 				throw new SQLException("수정 실패");
-			}else updatePatientToClients(con, patientNo);
+			}
+			int result1=updatePatientToClients(con, patientNo);
+			int result2=updateHospitalPatientCurr(con,patientNo);
+			if(result1==0||result2==0) {
+				con.rollback();
+			}
 		} finally {
 			con.commit();
 			DbUtil.close(con, ps, null);
@@ -102,7 +108,27 @@ public class HospitalDAOImpl implements HospitalDAO {
 		return result;
 	}
 
-	
+	@Override
+	public int updateHospitalPatientCurr(Connection con, int patientNo) throws SQLException {
+		PreparedStatement ps=null;
+		String sql="update hospital set patient_curr=patient_curr-1"
+				+ " where hospital_code=(select hospital_code from patient where patient_no=?";
+		int result=0;
+		try {
+			con.setAutoCommit(false);
+			ps=con.prepareStatement(sql);
+			ps.setInt(1, patientNo);
+			result=ps.executeUpdate();
+			if(result == 0) {
+				con.rollback();
+				throw new SQLException("수정 실패");
+			}
+		}finally {
+			con.commit();
+			DbUtil.close(null, ps,null);
+		}
+		return result;
+	}
 	
 	
 
@@ -157,6 +183,8 @@ public class HospitalDAOImpl implements HospitalDAO {
 		}
 		return result;
 	}
+
+	
 
 	
 }
