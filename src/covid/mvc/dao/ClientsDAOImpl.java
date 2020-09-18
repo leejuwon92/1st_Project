@@ -69,6 +69,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 		String sql = "select district,place_type, patient_no,visit_date from route join place using(place_code)"
 				+ "where district like ?";
 		try {
+			
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1, addr);
@@ -140,7 +141,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 			con = DbUtil.getConnection();
 			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql1);
-			ps.setString(1, clients.getUserId());
+			ps.setString(1, clients.getUserAddr());
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				throw new SQLException("아이디가 이미 존재합니다. 다른 아이디로 회원가입 해주세요.");
@@ -157,9 +158,40 @@ public class ClientsDAOImpl implements ClientsDAO {
 			if(result==0) {
 				throw new SQLException("회원가입에 실패했습니다");
 			}
+			
+			if(clients.getUserType() == 2) {
+				Patient patient = new Patient(0, null, 1, clients.getUserId(), null);
+				int patientResult = insertPatient(con, patient);
+				if(patientResult == 0) {
+					con.rollback();
+				}
+			}
 		} finally {
 			con.commit();
 			DbUtil.close(con, ps, rs);
+		}
+		return result;
+	}
+	
+	@Override
+	public int insertPatient(Connection con, Patient patient) throws SQLException {
+		PreparedStatement ps = null;
+		String sql = "insert into patient values(patient_no.nextval, sysdate, 1, ?, ?)";
+		int result=0;
+		try {
+			con.setAutoCommit(false);
+			ps = con.prepareStatement(sql);
+			ps.setString(1, patient.getUserId());
+			ps.setString(2, patient.getHospitalCode());
+			
+			result = ps.executeUpdate();
+			if(result == 0) {
+				con.rollback();
+				throw new SQLException("등록 실패");
+			}
+		} finally {
+			con.commit();
+			DbUtil.close(null, ps, null);
 		}
 		return result;
 	}

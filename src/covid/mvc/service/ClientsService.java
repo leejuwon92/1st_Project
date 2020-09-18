@@ -7,6 +7,7 @@ import covid.mvc.dao.ClientsDAO;
 import covid.mvc.dao.ClientsDAOImpl;
 import covid.mvc.dto.Clients;
 import covid.mvc.dto.Drug;
+import covid.mvc.dto.Patient;
 import covid.mvc.dto.Route;
 import covid.mvc.dto.Seoul;
 
@@ -56,7 +57,7 @@ public class ClientsService {
 	public Seoul selectSeoulByAddr(String addr) throws SQLException{
 		Seoul seoul = clientsDAO.selectSeoulByAddr(addr);
 		if(seoul == null) {
-			throw new SQLException("정보가 없습니다");
+			System.out.println("주소 정보가 없습니다.");
 		}
 		return seoul;
 	}

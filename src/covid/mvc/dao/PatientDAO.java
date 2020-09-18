@@ -21,11 +21,6 @@ public interface PatientDAO {
 	public List<Hospital> selectHospitalAll()throws SQLException;
 	
 	/**
-	 * 환자 집어넣기
-	 */
-	public int insertPatient(Connection con, Patient patient) throws SQLException;
-	
-	/**
 	 * 확진자 동선 입력
 	 */
 	public int insertRoute(Route route) throws SQLException;
@@ -39,4 +34,9 @@ public interface PatientDAO {
 	 * 장소 코드 출력
 	 */
 	public List<Place> selectPlaceAll()throws SQLException;
+	
+	/**
+	 * 환자 병원 수정
+	 */
+	public int updateHospitalCode(Connection con, String userId, String hospitalAddr) throws SQLException;
 }

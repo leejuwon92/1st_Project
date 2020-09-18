@@ -20,12 +20,12 @@ public class PatientDAOImpl implements PatientDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select *from Hospital where hospital_addr = ?";
+		String sql = "select *from Hospital where hospital_addr like ?";
 		List<Hospital> list = new ArrayList<Hospital>();
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setString(1, userAddr);
+			ps.setString(1, "'%"+userAddr+"%'");
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				Hospital hospital = new Hospital(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getInt(4),
@@ -33,6 +33,7 @@ public class PatientDAOImpl implements PatientDAO {
 				list.add(hospital);
 			}
 		} finally {
+			
 			DbUtil.close(con, ps, rs);
 		}
 		return list;
@@ -49,7 +50,7 @@ public class PatientDAOImpl implements PatientDAO {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
-			if(rs.next()) {
+			while(rs.next()) {
 				Hospital hospital = new Hospital(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getInt(4),
 						rs.getString(5), rs.getInt(6), rs.getString(7));
 				list.add(hospital);
@@ -58,29 +59,6 @@ public class PatientDAOImpl implements PatientDAO {
 			DbUtil.close(con, ps, rs);
 		}
 		return list;
-	}
-
-	@Override
-	public int insertPatient(Connection con, Patient patient) throws SQLException {
-		PreparedStatement ps = null;
-		String sql = "insert into patient values(patient_no.nextval, sysdate, 1, ?, ?";
-		int result=0;
-		try {
-			con = DbUtil.getConnection();
-			con.setAutoCommit(false);
-			ps = con.prepareStatement(sql);
-			ps.setString(1, patient.getUserId());
-			ps.setNString(2, patient.getHospitalCode());
-			
-			result = ps.executeUpdate();
-			if(result == 0) {
-				con.rollback();
-				throw new SQLException("등록 실패");
-			}
-		} finally {
-			DbUtil.close(null, ps, null);
-		}
-		return result;
 	}
 
 	@Override
@@ -113,25 +91,28 @@ public class PatientDAOImpl implements PatientDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from Hospital where Hospital_name =?  and cliend_id = ?";
+		String sql = "select * from Hospital where Hospital_name =?";
 		Hospital hospital = null;
 		try {
 			con = DbUtil.getConnection();
+			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql);
 			ps.setString(1, hospitalName);
-			ps.setString(2, sessionId);
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				hospital = new Hospital(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getInt(4),
 						rs.getString(5), rs.getInt(6), rs.getString(7));
 				if(hospital != null) {
-					Patient patient = new Patient(0, null, 1, sessionId, hospital.getHospitalCode());
-					insertPatient(con, patient);
+					int result = updateHospitalCode(con, sessionId, hospital.getHospitalAddr());
+					if(result == 0) {
+						con.rollback();
+					}
 				}
 			}
 			
 		} finally {
-			// TODO: handle finally clause
+			con.commit();
+			DbUtil.close(con, ps, rs);
 		}
 		return hospital;
 	}
@@ -141,7 +122,7 @@ public class PatientDAOImpl implements PatientDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select*from place";
+		String sql = "select * from place";
 
 		List<Place> list = new ArrayList<Place>();
 		try {
@@ -156,5 +137,27 @@ public class PatientDAOImpl implements PatientDAO {
 			DbUtil.close(con, ps, rs);
 		}
 		return list;
+	}
+	
+	@Override
+	public int updateHospitalCode(Connection con, String userId, String hospitalAddr) throws SQLException {
+		PreparedStatement ps = null;
+		String sql = "update patient set hospital_code = (select hospital_code from hospital where hospital_addr = ?)" + 
+				"where clients_id = ?";
+		int result = 0;
+		try {
+			con.setAutoCommit(false);
+			ps = con.prepareStatement(sql);
+			ps.setString(1, hospitalAddr);
+			ps.setString(2, userId);
+			result = ps.executeUpdate();
+			if(result == 0) {
+				con.rollback();
+			}
+		} finally {
+			con.commit();
+			DbUtil.close(null, ps, null);
+		}
+		return result;
 	}
 }

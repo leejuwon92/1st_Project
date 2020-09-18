@@ -43,6 +43,7 @@ public class HospitalController {
 	public static void updateMediStaff(String userId,int mediStaff) {
 		try {
 			service.updateMediStaff(userId, mediStaff);
+
 			SuccessView.messagePrint("의료진 상태가 변경되었습니다.");
 		}catch(Exception e) {
 			e.printStackTrace();

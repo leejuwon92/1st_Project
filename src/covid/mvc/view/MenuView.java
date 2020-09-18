@@ -7,6 +7,7 @@ import covid.mvc.controller.HospitalController;
 import covid.mvc.controller.PatientController;
 import covid.mvc.dto.Clients;
 import covid.mvc.dto.Hospital;
+import covid.mvc.dto.Patient;
 import covid.mvc.dto.Route;
 import covid.mvc.session.Session;
 import covid.mvc.session.SessionSet;
@@ -54,7 +55,7 @@ public class MenuView {
 			System.out.println(ss.getSet());
 			System.out.println("====================================================");
 			System.out.println("-----" + session.getSessionId() + "님 반갑습니다^^------");
-//			System.out.println(session.getSeoul());
+			System.out.println(session.getSeoul());
 			System.out.println("==============*오늘도 건강한 하루되세요*============");
 			System.out.println("====================================================");
 			System.out.println("------------원하는 메뉴 번호를 눌러 주세요----------");
@@ -127,7 +128,8 @@ public class MenuView {
 				System.out.print("▶▶");
 				String district = sc.nextLine();
 				System.out.println("방문하신 장소의 코드를 참조하여 입력하세요");
-				// 장소코드 보여줄 메소드추가
+
+				PatientController.selectPlaceAll();
 				System.out.print("▶▶");
 				String placeCode = sc.nextLine();
 				System.out.println("장소를 방문하신 날짜를 입력하여 주세요(예:2020-08-13)");
@@ -201,7 +203,6 @@ public class MenuView {
 	 * 확진자가 병원 선택하기
 	 */
 	public static void selectHospitalByName(Session session) {
-		
 		System.out.println("병원을 선택하세요");
 		System.out.print("▶▶");
 		String hospital = sc.nextLine();
@@ -235,23 +236,54 @@ public class MenuView {
 	 * 회원가입하기
 	 */
 	private static void insertClients() {
+		while (true) {
+			System.out.println();
+			System.out.print("아이디 : ");
+			String userId = sc.nextLine();
 
-		System.out.println();
-		System.out.print("아이디 : ");
-		String userId = sc.nextLine();
+			System.out.print("비번 : ");
+			String userPwd = sc.nextLine();
 
-		System.out.print("비번 : ");
-		String userPwd = sc.nextLine();
+			System.out.print("구분(|| 일반인:1 || 확찐자:2 || 병원:3 ||) : ");
+			int userType = Integer.parseInt(sc.nextLine());
+			if (userType < 3 && userType > 0) {
 
-		System.out.print("구분(|| 일반인:1 || 병원:2 ||) : ");
-		int userType = Integer.parseInt(sc.nextLine());
-		if(userType < 3 && userType > 0) {
-			if(userType == 2) {
-				userType = 3;
-			} 
-		} else {
-			System.out.println("번호 입력 오류입니다.");
-			return;
+				System.out.print("주소 : ");
+				String userAddr = sc.nextLine();
+
+				System.out.println("ID : " + userId);
+				System.out.println("Password : " + userPwd);
+				System.out.println("Address : " + userAddr);
+				if (userType == 1)
+					System.out.println("userType : 일반인");
+				else if (userType == 2)
+					System.out.println("userType : 확찐자");
+				else if (userType == 3)
+					System.out.println("userType : 병원");
+				while (true) {
+					System.out.println("입력하신 정보가 맞습니까?");
+					System.out.println("   Y 회원가입    /   N 회원가입 나가기  ");
+					System.out.print(" >> ");
+					String confirm = sc.nextLine();
+					if (confirm.equals("y")) {
+						Clients client = new Clients(userId, userPwd, userType, userAddr);
+						System.out.println(client.getUserAddr());
+						ClientsController.insertClients(client);
+						
+						if (userType == 3) {
+							insertHospital(userAddr, userId);
+							return;
+						}
+					} else if (confirm.equals("n")) {
+						return;
+					} else {
+						System.out.println("Y 혹은 N으로만 입력해주세요");
+					}
+
+				}
+			} else {
+				System.out.println("번호 입력 오류입니다.");
+			}
 		}
 		
 		System.out.print("주소 : ");

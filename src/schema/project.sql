@@ -84,7 +84,7 @@ select * from drug; --µ•¿Ã≈Õ ª¿‘ øœ∑·.
 select * from route;
 select * from place; 
 select * from seoul; 
-select * from clients;  
+select * from clients; 
 select * from hospital;  
 select * from patient;
 
@@ -106,7 +106,7 @@ drop table drug;
 
 select * from clients where clients_id = 'aa' && clients_pw = '123';
 
-insert into clients values('aa', '123', 1, 'µµ∫¿±∏');
+insert into clients values('aaa', '123', 1, null);
 
 select * from seoul where district like 'µµ∫¿±∏';
 select * from clients;
