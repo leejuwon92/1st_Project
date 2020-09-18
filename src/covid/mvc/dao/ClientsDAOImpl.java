@@ -113,7 +113,8 @@ public class ClientsDAOImpl implements ClientsDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select district, (select count(*) from patient where district like ?), hazard from seoul where district like ?";
+		String sql = "select district,(select count(*) from patient join clients using(clients_id) where clients_addr like ?), hazard" + 
+				"from seoul where district like ?";
 		Seoul seoul = null;
 		try {
 			con = DbUtil.getConnection();
