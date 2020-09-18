@@ -44,7 +44,7 @@ public class PatientDAOImpl implements PatientDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select hospital_name, hospital_addr,(medi_staff*2)-patient_curr as ÀÜ¿©º´»ó¼ö from hospital;";
+		String sql = "select hospital_name, hospital_addr,(medi_staff*2)-patient_curr as ÀÜ¿©º´»ó¼ö from hospital";
 		List<Hospital> list = new ArrayList<Hospital>();
 		try {
 			con = DbUtil.getConnection();
@@ -108,7 +108,6 @@ public class PatientDAOImpl implements PatientDAO {
 					if(result1 == 0 || result2==0) {
 						con.rollback();
 					}
-					
 				}
 			}
 			
@@ -165,7 +164,8 @@ public class PatientDAOImpl implements PatientDAO {
 	@Override
 	public int updatePatientCurr(Connection con, String hospitalCode) throws SQLException {
 		PreparedStatement ps=null;
-		String sql="update hospital set hospital_curr=hospital_curr+1 where hospital_code=?";
+		String sql="update hospital set patient_curr= patient_curr+1 "
+				+ "where hospital_code=(select hospital_code from hospital where hospital_name=?)";
 		int result=0;
 		try {
 			con.setAutoCommit(false);
