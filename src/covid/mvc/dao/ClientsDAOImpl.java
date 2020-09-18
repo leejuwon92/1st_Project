@@ -90,7 +90,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Seoul> list = new ArrayList<Seoul>();
-		String sql = "select * from seoul";
+		String sql = "select district, (select count(*) from patient), hazard from seoul";
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -111,12 +111,13 @@ public class ClientsDAOImpl implements ClientsDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from seoul where district like ?";
+		String sql = "select district, (select count(*) from patient where district like ?), hazard from seoul where district like ?";
 		Seoul seoul = null;
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1, "%"+addr+"%");
+			ps.setString(2, "%"+addr+"%");
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				seoul = new Seoul(rs.getString(1), rs.getInt(2), rs.getString(3));

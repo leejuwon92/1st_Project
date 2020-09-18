@@ -42,7 +42,7 @@ public class Seoul {
 	public String toString() {
 		if(this.dis_patient < 20) {
 			setHazard("Àú");
-		} else if(dis_patient < 40) {
+		} else if(dis_patient < 50) {
 			setHazard("Áß");
 		} else if(dis_patient < 100) {
 			setHazard("°í");
