@@ -89,7 +89,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	@Override
 	public int updatePatientToClients(Connection con,int patientNo) throws SQLException {
 		PreparedStatement ps=null;
-		String  sql="update clients set clients_type=1 where clients_type=(select clients_id from patient where patient_no=?";
+		String  sql="update clients set clients_type=1 where clients_id=(select clients_id from patient where patient_no=?)";
 		int result=0;
 		try {
 			con.setAutoCommit(false);
@@ -112,7 +112,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 	public int updateHospitalPatientCurr(Connection con, int patientNo) throws SQLException {
 		PreparedStatement ps=null;
 		String sql="update hospital set patient_curr=patient_curr-1"
-				+ " where hospital_code=(select hospital_code from patient where patient_no=?";
+				+ " where hospital_code=(select hospital_code from patient where patient_no=?)";
 		int result=0;
 		try {
 			con.setAutoCommit(false);

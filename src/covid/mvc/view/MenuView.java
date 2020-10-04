@@ -80,12 +80,13 @@ public class MenuView {
 				int sub = Integer.parseInt(sc.nextLine());
 				switch (sub) {
 				case 1:
+					System.out.println("-내 주소 기반 확진자 동선 조회-");
 					ClientsController.selectRouteByAddr(session.getSessionAddr());
 					break;
 				case 2:
 					System.out.println("조회하실 구를 입력하세요.");
 					String addr = sc.nextLine();
-					System.out.println(addr);
+					System.out.println(addr+" 확진자");
 					ClientsController.selectRouteByAddr(addr);
 					break;
 
@@ -230,6 +231,7 @@ public class MenuView {
 		SessionSet ss = SessionSet.getInstance();
 		Session session = new Session(sessionId, null, 0);
 		ss.remove(session);
+		System.out.println("로그아웃 되었습니다");
 	}
 
 	/**
@@ -244,7 +246,7 @@ public class MenuView {
 			System.out.print("비번 : ");
 			String userPwd = sc.nextLine();
 
-			System.out.print("구분(|| 일반인:1 || 확찐자:2 || 병원:3 ||) : ");
+			System.out.print("구분(|| 일반인:1 || 확진자:2 || 병원:3 ||) : ");
 			int userType = Integer.parseInt(sc.nextLine());
 			if (userType < 4 && userType > 0) {
 
@@ -257,7 +259,7 @@ public class MenuView {
 				if (userType == 1)
 					System.out.println("userType : 일반인");
 				else if (userType == 2)
-					System.out.println("userType : 확찐자");
+					System.out.println("userType : 확진자");
 				else if (userType == 3)
 					System.out.println("userType : 병원");
 				while (true) {
@@ -267,7 +269,7 @@ public class MenuView {
 					String confirm = sc.nextLine();
 					if (confirm.equals("y")) {
 						Clients client = new Clients(userId, userPwd, userType, userAddr);
-						System.out.println(client.getUserAddr());
+						//System.out.println(client.getUserAddr());
 						ClientsController.insertClients(client);
 						
 						if (userType == 3) {

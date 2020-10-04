@@ -69,7 +69,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 		ResultSet rs = null;
 		List<Route> list = new ArrayList<Route>();
 		String sql = "select district,place_type, patient_no,visit_date from route join place using(place_code)"
-				+ "where district like ? order by patient_no, visit_date";
+				+ " where district like ? order by patient_no, visit_date";
 		try {
 			
 			con = DbUtil.getConnection();
@@ -114,7 +114,7 @@ public class ClientsDAOImpl implements ClientsDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "select district,(select count(*) from patient join clients using(clients_id) where clients_addr like ?), hazard" + 
-				"from seoul where district like ?";
+				" from seoul where district like ?";
 		Seoul seoul = null;
 		try {
 			con = DbUtil.getConnection();
